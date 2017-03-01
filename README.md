@@ -1,5 +1,5 @@
 # CandyMark
-CandyEdit is a simple markdown editor.
+CandyMark is a simple markdown editor.
 
 ![](./screenshot.png)
 
