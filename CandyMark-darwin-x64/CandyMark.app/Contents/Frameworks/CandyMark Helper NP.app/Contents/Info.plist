@@ -5,23 +5,15 @@
     <key>BuildMachineOSBuild</key>
     <string>15E65</string>
     <key>CFBundleDisplayName</key>
-    <string>CandyEdit</string>
+    <string>CandyMark Helper NP</string>
     <key>CFBundleExecutable</key>
-    <string>CandyEdit</string>
-    <key>CFBundleIconFile</key>
-    <string>electron.icns</string>
+    <string>CandyMark Helper NP</string>
     <key>CFBundleIdentifier</key>
-    <string>com.electron.candyedit</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
+    <string>com.electron.candymark.helper.NP</string>
     <key>CFBundleName</key>
-    <string>CandyEdit</string>
+    <string>CandyMark Helper NP</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0.0</string>
-    <key>CFBundleVersion</key>
-    <string>1.0.0</string>
     <key>DTSDKBuild</key>
     <string>14D125</string>
     <key>DTSDKName</key>
@@ -30,16 +22,8 @@
     <string>0721</string>
     <key>DTXcodeBuild</key>
     <string>7C1002</string>
-    <key>LSApplicationCategoryType</key>
-    <string>public.app-category.developer-tools</string>
-    <key>LSMinimumSystemVersion</key>
-    <string>10.9.0</string>
-    <key>NSHighResolutionCapable</key>
+    <key>LSUIElement</key>
     <true/>
-    <key>NSMainNibFile</key>
-    <string>MainMenu</string>
-    <key>NSPrincipalClass</key>
-    <string>AtomApplication</string>
     <key>NSSupportsAutomaticGraphicsSwitching</key>
     <true/>
   </dict>

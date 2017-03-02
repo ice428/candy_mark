@@ -4,14 +4,10 @@
   <dict>
     <key>BuildMachineOSBuild</key>
     <string>15E65</string>
-    <key>CFBundleDisplayName</key>
-    <string>CandyEdit Helper EH</string>
-    <key>CFBundleExecutable</key>
-    <string>CandyEdit Helper EH</string>
     <key>CFBundleIdentifier</key>
-    <string>com.electron.candyedit.helper.EH</string>
+    <string>com.electron.candymark.helper</string>
     <key>CFBundleName</key>
-    <string>CandyEdit Helper EH</string>
+    <string>CandyMark</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>DTSDKBuild</key>
@@ -26,5 +22,9 @@
     <true/>
     <key>NSSupportsAutomaticGraphicsSwitching</key>
     <true/>
+    <key>CFBundleDisplayName</key>
+    <string>CandyMark Helper</string>
+    <key>CFBundleExecutable</key>
+    <string>CandyMark Helper</string>
   </dict>
 </plist>
