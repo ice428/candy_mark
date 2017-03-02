@@ -18,11 +18,11 @@
 - `math` code block will render KATeX.
 
 ## Roadmap
-- Synchronized Scroll support
-- Presentation support
+- presentation support
 - export PDF
 - export HTML
-- FileBrowser
+- file browser
+- improve synchronized Scroll
 
 ## License
 MIT. Copyright (c) Keito Ohsawa.
