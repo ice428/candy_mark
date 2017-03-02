@@ -1,0 +1,17 @@
+{
+  "name": "CandyEdit",
+  "version": "1.0.0",
+  "description": "electron markdown editor",
+  "main": "main.js",
+  "author": "",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "marked": "^0.3.6"
+  }
+}
