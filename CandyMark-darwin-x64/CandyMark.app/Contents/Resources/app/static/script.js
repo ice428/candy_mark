@@ -9,13 +9,15 @@ renderer.code = function(code, lang) {
     if (code.match(/^sequenceDiagram/) || code.match(/^graph/) || code.match(/^gantt/)) {
         return '<div class="mermaid" style="overflow:auto">' + code + '</div>';
     } else if (lang === "math") {
-		var katex_parsed = "";
-		try{
-			katex_parsed = katex.renderToString(code, {displayMode: true})
-			return katex_parsed
-		}catch(err){
-			return err
-		}
+        var katex_parsed = "";
+        try {
+            katex_parsed = katex.renderToString(code, {
+                displayMode: true
+            })
+            return katex_parsed
+        } catch (err) {
+            return err
+        }
 
     } else {
         return '<pre class="code_block"><code>' + hljs.highlightAuto(code, [lang]).value + '</code></pre>'
@@ -58,7 +60,6 @@ var refresh_mermaid = function() {
     // $(".mermaid").show();
     mermaid.init();
 };
-
 $(function() {
     // mermaid
     var config = {
@@ -96,6 +97,26 @@ $(function() {
         editorVm.input = $('#editor-div').val();
     });
 
+	mdEditor.on("scroll", function(e) {
+	    var scrollInfo = e.getScrollInfo();
+	    var lineNumber = e.lineAtHeight(scrollInfo.top, 'local');
+	    var range = e.getRange({
+	        line: 0,
+	        ch: null
+	    }, {
+	        line: lineNumber,
+	        ch: null
+	    });
+	    var parser = new DOMParser();
+	    var doc = parser.parseFromString(marked(range), 'text/html');
+	    var totalLines = doc.body.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, pre, blockquote, hr, table, .katex-display, .mermaid');
+
+	    var body = document.getElementById("preview");
+	    var elems = body.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, pre, blockquote, hr, table, .katex-display, .mermaid');
+	    if (elems.length > 0) {
+	        body.scrollTop = elems[totalLines.length].offsetTop;
+	    }
+	});
     // toolbar
     // toolbarVm = new Vue({
     //     el: '#action_area',

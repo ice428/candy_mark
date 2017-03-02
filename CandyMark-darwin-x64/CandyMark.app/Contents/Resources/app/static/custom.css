@@ -35,8 +35,17 @@ div#path_area {
     float: left;
 	margin-left: 10px;
 	font-size: x-small;
+	color: #627092;
 }
 
 code {
     font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+}
+.toolbar-footer{
+	border-top: none;
+}
+.toolbar{
+	box-shadow:none;
+	background-image:none;
+	background: #363540;
 }

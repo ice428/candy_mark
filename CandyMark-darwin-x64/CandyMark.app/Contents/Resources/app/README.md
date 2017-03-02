@@ -11,17 +11,18 @@
 - Katex support
 
 ## Screenshot
-![](./screenshot.png)
+![](./screen.png)
 
 ## Usage
 - `mermaid` code block will render mermaid diagrams.
 - `math` code block will render KATeX.
 
 ## Roadmap
-- Synchronized Scroll support
-- Presentation support
+- presentation support
 - export PDF
 - export HTML
+- file browser
+- improve synchronized Scroll
 
 ## License
 MIT. Copyright (c) Keito Ohsawa.
