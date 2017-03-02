@@ -2,7 +2,9 @@ const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const Menu = electron.Menu
-var {ipc} = electron;
+var {
+    ipc
+} = electron;
 
 const path = require('path')
 const url = require('url')
@@ -17,7 +19,7 @@ app.on('window-all-closed', function() {
 });
 
 // load window
-function createWindow () {
+function createWindow() {
     // create window object
     mainWindow = new BrowserWindow({
         width: 1100,
@@ -25,7 +27,7 @@ function createWindow () {
         title: "Candy"
     });
 
-	// devtools
+    // devtools
     // mainWindow.webContents.openDevTools();
 
     mainWindow.loadURL(url.format({
@@ -111,21 +113,27 @@ function createWindow () {
                     accelerator: "CmdOrCtrl+A",
                     selector: "selectAll:"
                 },
-				{
-            label: '&Reload',
-            accelerator: 'Ctrl+R',
-            click: function() { mainWindow.restart(); }
-          },
-          {
-            label: 'Toggle &Full Screen',
-            accelerator: 'F11',
-            click: function() { mainWindow.setFullScreen(!mainWindow.isFullScreen()); }
-          },
-          {
-            label: 'Toggle &Developer Tools',
-            accelerator: 'Alt+Ctrl+I',
-            click: function() { mainWindow.toggleDevTools(); }
-          }
+                {
+                    label: '&Reload',
+                    accelerator: 'Ctrl+R',
+                    click: function() {
+                        mainWindow.restart();
+                    }
+                },
+                {
+                    label: 'Toggle &Full Screen',
+                    accelerator: 'F11',
+                    click: function() {
+                        mainWindow.setFullScreen(!mainWindow.isFullScreen());
+                    }
+                },
+                {
+                    label: 'Toggle &Developer Tools',
+                    accelerator: 'Alt+Ctrl+I',
+                    click: function() {
+                        mainWindow.toggleDevTools();
+                    }
+                }
             ]
         }
     ];

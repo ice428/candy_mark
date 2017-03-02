@@ -9,5 +9,9 @@ CandyMark is a simple markdown editor.
 - mermaid.js support
 - Katex support
 
+## Roadmap
+- Synchronized Scroll support
+- Presentation support
+
 ## License
 MIT. Copyright (c) Keito Ohsawa.
