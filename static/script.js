@@ -9,10 +9,14 @@ renderer.code = function(code, lang) {
     if (code.match(/^sequenceDiagram/) || code.match(/^graph/) || code.match(/^gantt/)) {
         return '<div class="mermaid" style="overflow:auto">' + code + '</div>';
     } else if (lang === "math") {
-        return katex.renderToString(code, {
-            displayMode: true,
-			throwOnError:false
-        })
+		var katex_parsed = "";
+		try{
+			katex_parsed = katex.renderToString(code, {displayMode: true})
+			return katex_parsed
+		}catch(err){
+			return err
+		}
+
     } else {
         return '<pre class="code_block"><code>' + hljs.highlightAuto(code, [lang]).value + '</code></pre>'
     }
