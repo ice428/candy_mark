@@ -20,6 +20,8 @@
 ## Roadmap
 - Synchronized Scroll support
 - Presentation support
+- export PDF
+- export HTML
 
 ## License
 MIT. Copyright (c) Keito Ohsawa.
