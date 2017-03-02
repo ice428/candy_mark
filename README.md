@@ -13,6 +13,10 @@
 ## Screenshot
 ![](./screenshot.png)
 
+## Usage
+- `mermaid` code block will render mermaid diagrams.
+- `math` code block will render KATeX.
+
 ## Roadmap
 - Synchronized Scroll support
 - Presentation support
