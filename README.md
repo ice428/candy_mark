@@ -22,6 +22,7 @@
 - Presentation support
 - export PDF
 - export HTML
+- FileBrowser
 
 ## License
 MIT. Copyright (c) Keito Ohsawa.
