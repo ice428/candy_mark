@@ -11,7 +11,7 @@
 - Katex support
 
 ## Screenshot
-![](./screenshot.png)
+![](./screen.png)
 
 ## Usage
 - `mermaid` code block will render mermaid diagrams.
