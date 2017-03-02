@@ -84,7 +84,7 @@ $(function() {
                 var marked_text = marked(input);
                 //1sec timeout
                 clearTimeout(timer_mermaid);
-                timer_mermaid = setTimeout(refresh_mermaid, 1000);
+                timer_mermaid = setTimeout(refresh_mermaid, 500);
                 return marked_text
             }
         }
