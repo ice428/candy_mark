@@ -4,58 +4,43 @@
 <head>
 	<meta charset="UTF-8">
 	<title>CandyMark</title>
-	<!--css-->
-	<!--photon-->
+	<script>
+		window.jQuery = window.$ = require('jquery');
+	</script>
 	<link rel="stylesheet" href="static/photon/css/photon.css">
-	<!-- codemirror -->
 	<link rel="stylesheet" href="static/codemirror/codemirror.css">
 	<link rel="stylesheet" href="static/codemirror/theme/custom-theme.css">
-	<!-- markdown -->
-	<link rel="stylesheet" href="static/markdown.css">
-	<!-- mermaid -->
-	<link rel="stylesheet" href="static/mermaid/mermaid.forest.css">
-	<link rel="stylesheet" href="static/katex/katex.min.css">
-	<script src="static/katex/katex.min.js"></script>
-
 	<link rel="stylesheet" href="static/custom.css">
 </head>
 
 <body>
 	<div class="window">
-		<!--header-->
-		<!-- <header class="toolbar toolbar-header">
-		</header> -->
 
 		<!--contents-->
 		<div class="window-content">
 			<div class="pane-group" id="editor">
-
-				<!--main-->
-				<div class="pane">
-					<!--editor-->
+				<div class="pane" id="editor_pane">
 					<textarea id="editor-div" v-model="input"></textarea>
 				</div>
-				<div class="pane" id="preview" v-html="input | marked">
+				<div class="pane" id="preview_pane">
+					<!-- <div id="preview" v-html="input|marked"></div> -->
+					<webview id="webview" src="slideview.html" preload="js/webview.js"></webview>
 				</div>
 			</div>
 		</div>
 		<footer class="toolbar toolbar-footer">
 			<div class="toolbar-actions">
-				<div id="path_area">
-					<div v-html="currentPath"></div>
+				<div id="path_area"></div>
+				<div class="pull-right" id="action_area">
+					<button class="btn btn-default" id="style_doc"><span class="icon icon-doc-text"></span></button>
+					<button class="btn btn-default" id="style_slide"><span class="icon icon-map"></span></button>
 				</div>
-				<!-- <div class="btn-group pull-right" id="action_area">
-					<button class="btn btn-default" v-on:click.stop.prevent="load">Load</button>
-					<button class="btn btn-default" v-on:click.stop.prevent="save">Save</button>
-				</div> -->
 			</div>
 		</footer>
-
 	</div>
 </body>
 
 <!--javaScript-->
-<!-- codemirror -->
 <script src="static/codemirror/codemirror.js"></script>
 <script src="static/codemirror/addon/mode/overlay.js"></script>
 <script src="static/codemirror/mode/xml/xml.js"></script>
@@ -67,13 +52,8 @@
 <script src="static/codemirror/addon/edit/continuelist.js"></script>
 <script src="static/codemirror/addon/edit/closebrackets.js"></script>
 <script src="static/codemirror/addon/edit/closetag.js"></script>
-
-<!-- highlight.js -->
 <script src="static/highlight/highlight.pack.js"></script>
-<link rel="stylesheet" href="static/highlight/atom-one-light.css">
-<!-- mermaid -->
-<script src="static/mermaid/mermaid.min.js"></script>
-<script type="text/javascript" src="static/vue.min.js"></script>
+<script src="static/katex/katex.min.js"></script>
 <script type="text/javascript" src="static/script.js"></script>
 <script type="text/javascript" src="static/editor.js"></script>
 

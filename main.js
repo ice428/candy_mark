@@ -1,17 +1,21 @@
 const electron = require('electron')
 const app = electron.app
+// const webFrame = electron.webFrame
 const BrowserWindow = electron.BrowserWindow
 const Menu = electron.Menu
-var {
-    ipc
-} = electron;
+const ipc = electron.ipcMain
+const shell = electron.shell
+
+// webFrame.setZoomLevelLimits(1, 1)
 
 const path = require('path')
 const url = require('url')
-
+const os = require('os')
+const fs = require('fs')
 // require('crash-reporter').start();
 
-var mainWindow = null;
+let mainWindow = null;
+let workerWindow = null
 
 app.on('window-all-closed', function() {
     if (process.platform != 'darwin')
@@ -20,22 +24,15 @@ app.on('window-all-closed', function() {
 
 // load window
 function createWindow() {
-    // create window object
+    // ウィンドウオブジェクトの生成
     mainWindow = new BrowserWindow({
         width: 1100,
         height: 500,
-        title: "Candy"
+        title: "CandyMark"
     });
-
     // devtools
     // mainWindow.webContents.openDevTools();
-
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-    }))
-
+    mainWindow.loadURL("file://" + __dirname + "/index.html");
     mainWindow.on('closed', function() {
         mainWindow = null
     });
@@ -138,16 +135,59 @@ function createWindow() {
         }
     ];
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
+	// PDF印刷用のウィンドウ【将来いらなくなると思う】
+    workerWindow = new BrowserWindow({
+        parent: mainWindow,
+        show: false,
+        width: 0,
+        height: 0,
+    });
+    workerWindow.loadURL("file://" + __dirname + "/worker.html");
+    workerWindow.hide();
+    // workerWindow.webContents.openDevTools();
+    workerWindow.on("closed", () => {
+        workerWindow = undefined;
+    });
+
 };
+
+// アプリケーションの準備が完了したら発動
 app.on('ready', createWindow);
 
+// 全てのWindowが閉じられた時に発動
 app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') {
         app.quit()
     }
 });
+
+// 再びActiveになった時に発動
 app.on('activate', function() {
     if (mainWindow === null) {
         createWindow()
     }
+});
+
+// レンダラー側からPDF印刷要求が来たら
+ipc.on("create_pdf_worker", (event, content) => {
+    // console.log(content);
+    workerWindow.webContents.send("printPDF", content);
+});
+
+// workerwindowが印刷準備完了したら
+ipc.on("ready_pdf_worker", (event) => {
+    workerWindow.show()
+    const pdfPath = path.join(os.tmpdir(), 'print.pdf');
+    workerWindow.webContents.printToPDF({}, function(error, data) {
+        if (error) throw error
+        fs.writeFile(pdfPath, data, function(error) {
+            if (error) {
+                throw error
+            }
+            shell.openItem(pdfPath)
+            // event.sender.send('wrote-pdf', pdfPath)
+        })
+    })
+	    workerWindow.hide()
 });

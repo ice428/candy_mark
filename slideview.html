@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>CandyEditSlides</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="static/markdown.css">
+	<link rel="stylesheet" href="static/mermaid/mermaid.forest.css">
+	<link rel="stylesheet" href="static/katex/katex.min.css">
+	<link rel="stylesheet" href="static/highlight/atom-one-light.css">
+	<link rel="stylesheet" href="static/custom.css">
+	<!-- <link rel="stylesheet" href="static/custom_slide.css"> -->
+</head>
+
+<body>
+	<div id="preview"></div>
+	<!-- <textarea id="source"></textarea> -->
+	<script src="js/remark.min.js" type="text/javascript"></script>
+	<script src="static/highlight/highlight.pack.js"></script>
+	<script src="static/mermaid/mermaid.min.js"></script>
+	<script src="static/katex/katex.min.js"></script>
+	<script src="static/jquery/jquery.min.js"></script>
+	<script type="text/javascript">
+	// mermaidの設定
+	var mermaid_config = {
+		startOnLoad: false,
+		flowchart: {
+			useMaxWidth: false,
+			htmlLabels: true
+		},
+		gantt: {
+			numberSectionStyles: 8
+		}
+	};
+
+	window.onload = function(){
+    	mermaid.initialize(mermaid_config);
+	}
+
+	var synchronized_scroll = function(length) {
+	    // 現在行までのテキストを取得
+	    var total = $("#preview").find("h1, h2, h3, h4, h5, h6")
+	    $(document.body).animate({
+	        scrollTop: total[length].offsetTop
+	    }, 100, "swing");
+	};
+		// var slideshow = remark.create({
+		// 	highlightStyle: 'monokai'
+		// });
+	</script>
+</body>
+
+</html>

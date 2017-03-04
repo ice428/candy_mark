@@ -1,80 +1,77 @@
-const electron = require('electron')
-var remote = electron.remote;
-var fs = require("fs");
-var dialog = remote.dialog;
-var browserWindow = remote.BrowserWindow;
-const ipc = electron.ipcRenderer
+// 主にremoteとmainのデータのやり取りを行う
 
-// open
+// var $ = jQuery = require("jquery");
+// var Hammer = require('./js/hammer.min.js');
+const electron = require('electron')
+const remote = electron.remote;
+const ipc = electron.ipcRenderer;
+const dialog = remote.dialog;
+const browserWindow = remote.BrowserWindow;
+const Menu = remote.Menu;
+const MenuItem = remote.MenuItem;
+const fs = require("fs");
+
+// ファイルを開く
 function loadFile() {
     var win = browserWindow.getFocusedWindow();
     dialog.showOpenDialog(
-        win,
-        {
+        win, {
             properties: ['openFile'],
-            filters: [
-                {
-                    name: 'Markdown',
-                    extensions: ['md', 'txt']
-                }
-            ]
+            filters: [{
+                name: 'Markdown',
+                extensions: ['md', 'txt']
+            }]
         },
-        function (filenames) {
+        function(filenames) {
             if (filenames) {
-                fs.readFile(filenames[0], function (error, text) {
+                fs.readFile(filenames[0], function(error, text) {
                     if (error != null) {
                         alert('error : ' + error);
                         return;
                     }
                     mdEditor.setValue(text.toString());
                 });
-                footerVm.currentPath = filenames[0];
+                $("#path_area").html(filenames[0]);
             }
         });
 }
-
 ipc.on('open', function() {
-	loadFile();
+    loadFile();
 });
 
-// save
+// ファイル保存
 function saveFile() {
     if (footerVm.currentPath == "") {
         saveNewFile();
         return;
-    }
-    var win = browserWindow.getFocusedWindow();
-    dialog.showMessageBox(win,
-        {
-            title: 'The existing file will replaced.',
-            type: 'info',
-            buttons: ['OK', 'Cancel'],
-            detail: 'Do you want to continue?'
-        },
-        function (res) {
-            if (res == 0) {
-                var data = mdEditor.getValue();
-                writeFile(footerVm.currentPath, data);
-            }
-        }
-    );
+    }else{
+		var win = browserWindow.getFocusedWindow();
+	    dialog.showMessageBox(win, {
+	            title: 'The existing file will replaced.',
+	            type: 'info',
+	            buttons: ['OK', 'Cancel'],
+	            detail: 'Do you want to continue?'
+	        },
+	        function(res) {
+	            if (res == 0) {
+	                var data = mdEditor.getValue();
+	                writeFile(footerVm.currentPath, data);
+	            }
+	        }
+	    );}
 }
-
-// save
+// 新しいファイルを保存するときはこちら
 function saveNewFile() {
     var win = browserWindow.getFocusedWindow();
     dialog.showSaveDialog(
-        win,
-        {
+        win, {
             properties: ['openFile'],
-            filters: [
-                {
-                    name: 'Documents',
-                    extensions: ['md', 'txt']
-                }
-            ]
+            filters: [{
+                name: 'Documents',
+                extensions: ['md', 'txt']
+            }]
         },
-        function (fileName) {
+        function(fileName) {
             if (fileName) {
                 var data = mdEditor.getValue();
                 footerVm.currentPath = fileName;
@@ -83,27 +80,47 @@ function saveNewFile() {
         }
     );
 }
-
-// write
+// ファイルの書き込み
 function writeFile(path, data) {
-    fs.writeFile(path, data, function (error) {
+    fs.writeFile(path, data, function(error) {
         if (error != null) {
             alert('error : ' + error);
         }
         alert('Save complete.');
     });
 }
-
 ipc.on('save', function() {
-	saveFile();
+    saveFile();
 });
 
-// new
-function newFile(){
-	mdEditor.setValue("");
-	footerVm.currentPath = "";
+// 新規ファイル作成
+function newFile() {
+    mdEditor.setValue("");
+    footerVm.currentPath = "";
 }
-
 ipc.on('new', function() {
-	newFile();
+    newFile();
 });
+
+// プレビューウィンドウに右クリックをセット
+var preview = document.getElementById('preview');
+// 右クリックのメニューをつくる
+var menu = new Menu();
+menu.append(new MenuItem({
+    label: 'PrintPDF',
+    click: function() {
+        ipc.send("create_pdf_worker", preview.innerHTML);
+        // ipc.send('print-to-pdf')
+    }
+}));
+
+// preview.addEventListener('contextmenu', function(e) {
+//     e.preventDefault();
+//     menu.popup(remote.getCurrentWindow());
+// }, false);
+
+// PDF出力完了イベントで発動
+// ipc.on('wrote-pdf', function(event, path) {
+//     const message = `Wrote PDF to: ${path}`
+// 	alert(message)
+// })

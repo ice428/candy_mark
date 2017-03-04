@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset=UTF-8>
+	<!-- <link rel="stylesheet" href="static/photon/css/photon.css"> -->
+
+	<link rel="stylesheet" href="static/markdown.css">
+	<!-- mermaid -->
+	<link rel="stylesheet" href="static/mermaid/mermaid.forest.css">
+	<link rel="stylesheet" href="static/katex/katex.min.css">
+	<!-- <script src="static/katex/katex.min.js"></script> -->
+	<link rel="stylesheet" href="static/highlight/atom-one-light.css">
+
+	<link rel="stylesheet" href="static/custom.css">
+</head>
+
+<body>
+<div class="pane" id="preview" v-html="input | marked">
+	<script>
+		// レンダラー側プロセス間通信オブジェクトの生成
+		const ipcRenderer = require("electron").ipcRenderer;
+		// PDF印刷イベントを受けてコンテンツの上書き
+		ipcRenderer.on("printPDF", (event, content) => {
+			document.body.innerHTML = content;
+			// 準備完了通知
+			ipcRenderer.send("ready_pdf_worker");
+		});
+	</script>
+</body>
+</html>

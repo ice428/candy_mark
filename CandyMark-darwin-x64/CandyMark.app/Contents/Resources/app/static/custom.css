@@ -8,10 +8,18 @@
 	color: #6783af;
 }
 
+.pane{
+	background: #f7f7f7;
+}
+
 #preview {
     padding: 0px 10px;
-	background: #f7f7f7;
 	color: #4f5865;
+	heigh:100%;
+}
+
+webview{
+	height: 100%;
 }
 
 .mermaid {
@@ -41,6 +49,7 @@ div#path_area {
 code {
     font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
 }
+
 .toolbar-footer{
 	border-top: none;
 }
@@ -48,4 +57,18 @@ code {
 	box-shadow:none;
 	background-image:none;
 	background: #363540;
+}
+.btn-default{
+	border: none;
+	background: #75bac1;
+	color: white;
+}
+.btn .icon{
+	color: white;
+}
+.pull-right{
+	padding-right: 3px;
+}
+.btn-group .btn + .btn{
+	border-left: 1px solid transparent;
 }

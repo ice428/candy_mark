@@ -1,12 +1,13 @@
-var $ = jQuery = require("jquery");
+// var $ = jQuery = require("jquery");
 // var Hammer = require('./js/hammer.min.js');
 var marked = require('marked')
 hljs.initHighlightingOnLoad();
 
-// marked setting
+// マークダウンパーサの設定
 var renderer = new marked.Renderer();
 renderer.code = function(code, lang) {
     if (code.match(/^sequenceDiagram/) || code.match(/^graph/) || code.match(/^gantt/)) {
+        // return mermaid.parse(code);
         return '<div class="mermaid" style="overflow:auto">' + code + '</div>';
     } else if (lang === "math") {
         var katex_parsed = "";
@@ -28,11 +29,8 @@ marked.setOptions({
     gfm: true
 });
 
-// codemirror setting
+// コードミラーの設定
 var mdEditor = CodeMirror.fromTextArea(document.getElementById("editor-div"), {
-    // mode: "markdown",
-    // autofocus: true,
-    // indentUnit: 4,
     lineNumbers: true,
     lineWrapping: true,
     indentWithTabs: true,
@@ -46,96 +44,51 @@ var mdEditor = CodeMirror.fromTextArea(document.getElementById("editor-div"), {
     }
 });
 
-var editorVm, toolbarVm, footerVm;
-
-//timerID
-var timer_mermaid = 0;
-//parsed text
-var marked_text = "";
-
-//refresh mermaid
-var refresh_mermaid = function() {
-    //display area
-    // $("#preview_panel").html(marked_text);
-    // $(".mermaid").show();
-    mermaid.init();
+// ドキュメント表示に変更
+var style_doc = function() {
+    $('#preview').show()
+    $('#webview').hide()
 };
+
+// スライド表示に変更
+var style_slide = function() {
+    $('#preview').hide()
+    $('#webview').show()
+};
+
+// 同期スクロール
+var synchronized_scroll = function() {
+    // 現在行までのテキストを取得
+    var range = mdEditor.getRange({
+        line: 0,
+        ch: null
+    }, {
+        line: mdEditor.getCursor().line,
+        ch: null
+    });
+    // パースしてDOMを生成
+    var parser = new DOMParser();
+    var dom_tree = parser.parseFromString(marked(range), 'text/html');
+    var current = dom_tree.body.querySelectorAll("h1, h2, h3, h4, h5, h6");
+	webview.send('scroll_preview', current.length);
+};
+
+var webview = document.getElementById('webview');
+// webview.addEventListener('dom-ready', () => {
+//     webview.openDevTools()
+// });
+
 $(function() {
-    // mermaid
-    var config = {
-        startOnLoad: false,
-        flowchart: {
-            useMaxWidth: false,
-            htmlLabels: true
-        },
-        gantt: {
-            numberSectionStyles: 8
-        }
-    };
-    mermaid.initialize(config);
 
-    // editor
-    editorVm = new Vue({
-        el: '#editor',
-        data: {
-            input: ""
-        },
-        filters: {
-            marked: function(input) {
-                var marked_text = marked(input);
-                //1sec timeout
-                clearTimeout(timer_mermaid);
-                timer_mermaid = setTimeout(refresh_mermaid, 500);
-                return marked_text
-            }
-        }
-    });
-
-    // change
-    mdEditor.on('change', function() {
+    // エディタのデータを転送
+    mdEditor.on('change', function(e) {
         mdEditor.save();
-        editorVm.input = $('#editor-div').val();
+		var marked_text = marked($('#editor-div').val());
+        webview.send('update-markdown', marked_text);
     });
 
-	mdEditor.on("scroll", function(e) {
-	    var scrollInfo = e.getScrollInfo();
-	    var lineNumber = e.lineAtHeight(scrollInfo.top, 'local');
-	    var range = e.getRange({
-	        line: 0,
-	        ch: null
-	    }, {
-	        line: lineNumber,
-	        ch: null
-	    });
-	    var parser = new DOMParser();
-	    var doc = parser.parseFromString(marked(range), 'text/html');
-	    var totalLines = doc.body.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, pre, blockquote, hr, table, .katex-display, .mermaid');
-
-	    var body = document.getElementById("preview");
-	    var elems = body.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, pre, blockquote, hr, table, .katex-display, .mermaid');
-	    if (elems.length > 0) {
-	        body.scrollTop = elems[totalLines.length].offsetTop;
-	    }
-	});
-    // toolbar
-    // toolbarVm = new Vue({
-    //     el: '#action_area',
-    //     data: {},
-    //     methods: {
-    //         load: function(e) {
-    //             loadFile();
-    //         },
-    //         save: function(e) {
-    //             saveFile();
-    //         }
-    //     }
-    // });
-
-    // footer
-    footerVm = new Vue({
-        el: '#path_area',
-        data: {
-            currentPath: ""
-        }
-    });
+    // 高速同期スクロール
+    mdEditor.on("cursorActivity", synchronized_scroll);
+    $('#style_doc').on('click', style_doc);
+    $('#style_slide').on('click', style_slide);
 });
