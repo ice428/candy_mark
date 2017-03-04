@@ -9,7 +9,11 @@ const dialog = remote.dialog;
 const browserWindow = remote.BrowserWindow;
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;
+const shell = electron.shell
+
 const fs = require("fs");
+const path = require('path')
+const os = require('os')
 
 // ファイルを開く
 function loadFile() {
@@ -102,25 +106,17 @@ ipc.on('new', function() {
     newFile();
 });
 
-// プレビューウィンドウに右クリックをセット
-var preview = document.getElementById('preview');
-// 右クリックのメニューをつくる
-var menu = new Menu();
-menu.append(new MenuItem({
-    label: 'PrintPDF',
-    click: function() {
-        ipc.send("create_pdf_worker", preview.innerHTML);
-        // ipc.send('print-to-pdf')
-    }
-}));
-
-// preview.addEventListener('contextmenu', function(e) {
-//     e.preventDefault();
-//     menu.popup(remote.getCurrentWindow());
-// }, false);
-
-// PDF出力完了イベントで発動
-// ipc.on('wrote-pdf', function(event, path) {
-//     const message = `Wrote PDF to: ${path}`
-// 	alert(message)
-// })
+var webview = document.getElementById('webview');
+ipc.on('print_pdf', function(event) {
+    const pdfPath = path.join(os.homedir(), 'print.pdf')
+    webview.printToPDF({}, function(error, data) {
+        if (error) throw error
+        fs.writeFile(pdfPath, data, function(error) {
+            if (error) {
+                throw error
+            }
+            shell.openExternal('file://' + pdfPath)
+            // event.sender.send('wrote-pdf', pdfPath)
+        })
+    })
+})

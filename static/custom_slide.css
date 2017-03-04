@@ -1,9 +1,7 @@
-body, code{
-	font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+.remark-container {
+    background: #322e3a;
 }
-.remark-container{
-	background: #322e3a;
-}
+
 h1 {
     font-size: 28px;
     color: rgb(78, 162, 173);
@@ -19,6 +17,36 @@ h3 {
     font-size: 18px;
     color: #909090;
 }
-code{
-border-radius: 5px;
+
+body {
+    background: #f7f7f7;
+}
+
+#preview {
+    /*padding: 0px 10px;*/
+	/*padding: 0px;*/
+    color: #4f5865;
+    /*heigh: 100%;*/
+}
+
+.mermaid {
+    margin: 30px 0px;
+    background: white;
+    border-radius: 5px;
+    border: 1px solid;
+    overflow: scroll;
+}
+
+.katex-display {
+    padding: 20px;
+    color: rgb(71, 140, 169);
+    overflow: scroll;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid;
+}
+
+code {
+    border-radius: 5px;
+    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
 }

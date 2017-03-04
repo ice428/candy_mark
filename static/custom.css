@@ -8,35 +8,8 @@
 	color: #6783af;
 }
 
-.pane{
-	background: #f7f7f7;
-}
-
-#preview {
-    padding: 0px 10px;
-	color: #4f5865;
-	heigh:100%;
-}
-
 webview{
 	height: 100%;
-}
-
-.mermaid {
-    margin: 30px 0px;
-	background: white;
-	border-radius: 5px;
-	border: 1px solid;
-	overflow: scroll;
-}
-
-.katex-display {
-    padding: 20px;
-	color: rgb(71, 140, 169);
-	overflow: scroll;
-	background: #fff;
-	border-radius: 5px;
-	border: 1px solid;
 }
 
 div#path_area {
@@ -44,10 +17,6 @@ div#path_area {
 	margin-left: 10px;
 	font-size: x-small;
 	color: #627092;
-}
-
-code {
-    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
 }
 
 .toolbar-footer{

@@ -74,9 +74,9 @@ var synchronized_scroll = function() {
 };
 
 var webview = document.getElementById('webview');
-// webview.addEventListener('dom-ready', () => {
-//     webview.openDevTools()
-// });
+webview.addEventListener('dom-ready', () => {
+    webview.openDevTools()
+});
 
 $(function() {
 

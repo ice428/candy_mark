@@ -72,6 +72,14 @@ function createWindow() {
                     click: function() {
                         mainWindow.webContents.send('new');
                     }
+                },
+                {
+                    label: "PrintPDF",
+                    accelerator: "Command+P",
+                    click: function() {
+						// console.log(mainWindow.webContents.webContents)
+                        mainWindow.webContents.send('print_pdf');
+                    }
                 }
             ]
         },
