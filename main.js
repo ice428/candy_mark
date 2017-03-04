@@ -143,21 +143,6 @@ function createWindow() {
         }
     ];
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-
-	// PDF印刷用のウィンドウ【将来いらなくなると思う】
-    workerWindow = new BrowserWindow({
-        parent: mainWindow,
-        show: false,
-        width: 0,
-        height: 0,
-    });
-    workerWindow.loadURL("file://" + __dirname + "/worker.html");
-    workerWindow.hide();
-    // workerWindow.webContents.openDevTools();
-    workerWindow.on("closed", () => {
-        workerWindow = undefined;
-    });
-
 };
 
 // アプリケーションの準備が完了したら発動
@@ -178,24 +163,9 @@ app.on('activate', function() {
 });
 
 // レンダラー側からPDF印刷要求が来たら
-ipc.on("create_pdf_worker", (event, content) => {
+ipc.on("return_size", (event, width, height) => {
+	console.log(width)
+		console.log(height)
     // console.log(content);
-    workerWindow.webContents.send("printPDF", content);
-});
-
-// workerwindowが印刷準備完了したら
-ipc.on("ready_pdf_worker", (event) => {
-    workerWindow.show()
-    const pdfPath = path.join(os.tmpdir(), 'print.pdf');
-    workerWindow.webContents.printToPDF({}, function(error, data) {
-        if (error) throw error
-        fs.writeFile(pdfPath, data, function(error) {
-            if (error) {
-                throw error
-            }
-            shell.openItem(pdfPath)
-            // event.sender.send('wrote-pdf', pdfPath)
-        })
-    })
-	    workerWindow.hide()
+    mainWindow.webContents.send("return_size_content", width, height);
 });
