@@ -3,8 +3,14 @@
 var marked = require('marked')
 hljs.initHighlightingOnLoad();
 
-// マークダウンパーサの設定
+var webview = document.getElementById('webview');
+// webview.addEventListener('dom-ready', () => {
+//     webview.openDevTools()
+// });
+
+// markedレンダラーの生成
 var renderer = new marked.Renderer();
+// codeブロックレンダラーの上書き
 renderer.code = function(code, lang) {
     if (code.match(/^sequenceDiagram/) || code.match(/^graph/) || code.match(/^gantt/)) {
         // return mermaid.parse(code);
@@ -23,6 +29,13 @@ renderer.code = function(code, lang) {
     } else {
         return '<pre class="code_block"><code>' + hljs.highlightAuto(code, [lang]).value + '</code></pre>'
     }
+};
+// 画像レンダラの上書き
+renderer.image = function(href, title, text) {
+    if (href.match(/\..*/)) {
+        href = __dirname + href.substr(1)
+	}
+    return '<img src="' + href + '" alt="' + text + '"' + ' title="' + title + '"' + '>';
 };
 marked.setOptions({
     renderer: renderer,
@@ -46,14 +59,12 @@ var mdEditor = CodeMirror.fromTextArea(document.getElementById("editor-div"), {
 
 // ドキュメント表示に変更
 var style_doc = function() {
-    // $('#preview').show()
-    // $('#webview').hide()
+	webview.send('mode_document');
 };
 
 // スライド表示に変更
 var style_slide = function() {
-    // $('#preview').hide()
-    // $('#webview').show()
+	webview.send('mode_slide');
 };
 
 // 同期スクロール
@@ -72,11 +83,6 @@ var synchronized_scroll = function() {
     var current = dom_tree.body.querySelectorAll("h1, h2, h3, h4, h5, h6");
     webview.send('scroll_preview', current.length);
 };
-
-var webview = document.getElementById('webview');
-webview.addEventListener('dom-ready', () => {
-    webview.openDevTools()
-});
 
 $(function() {
     // エディタのデータを転送

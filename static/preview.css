@@ -56,3 +56,21 @@ code {
     border-radius: 5px;
     font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
 }
+/*.columns{
+	position: relative;
+	width: 100%
+	margin: 5% 0;
+	background: white;
+}
+.columns:before{
+    padding-top: 75%;
+    display: block;
+    content: "";
+}
+.source{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+}*/

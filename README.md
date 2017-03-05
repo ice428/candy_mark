@@ -9,6 +9,8 @@
 - GitHub Flavored Markdown support
 - mermaid.js support
 - Katex support
+- PDF export support
+- Fast Synchronized Scroll
 
 ## Screenshot
 ![](./screen.png)
@@ -19,10 +21,8 @@
 
 ## Roadmap
 - presentation support
-- export PDF
 - export HTML
 - file browser
-- improve synchronized Scroll
 
 ## License
 MIT. Copyright (c) Keito Ohsawa.

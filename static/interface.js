@@ -36,6 +36,8 @@ function loadFile() {
                     mdEditor.setValue(text.toString());
                 });
                 $("#path_area").html(filenames[0]);
+				// 実行ディレクトリの変更
+				__dirname = path.dirname(filenames[0])
             }
         });
 }
@@ -80,6 +82,8 @@ function saveNewFile() {
             if (fileName) {
                 var data = mdEditor.getValue();
                 footerVm.currentPath = fileName;
+				// 実行ディレクトリの変更
+				__dirname = path.dirname(fileName)
                 writeFile(fileName, data);
             }
         }
