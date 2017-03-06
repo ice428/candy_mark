@@ -8,14 +8,13 @@ const shell = electron.shell
 
 // webFrame.setZoomLevelLimits(1, 1)
 
-const path = require('path')
-const url = require('url')
-const os = require('os')
-const fs = require('fs')
+// const path = require('path')
+// const url = require('url')
+// const os = require('os')
+// const fs = require('fs')
 // require('crash-reporter').start();
 
-let mainWindow = null;
-let workerWindow = null
+let mainWindow = null
 
 app.on('window-all-closed', function() {
     if (process.platform != 'darwin')
@@ -47,28 +46,28 @@ function createWindow() {
                 },
                 {
                     label: "Quit",
-                    accelerator: "Command+Q",
+                    accelerator: "CmdOrCtrl+Q",
                     click: function() {
                         app.quit();
                     }
                 },
                 {
                     label: "New",
-                    accelerator: "Command+N",
+                    accelerator: "CmdOrCtrl+N",
                     click: function() {
                         mainWindow.webContents.send('new');
                     }
                 },
                 {
                     label: "Open",
-                    accelerator: "Command+O",
+                    accelerator: "CmdOrCtrl+O",
                     click: function() {
                         mainWindow.webContents.send('open');
                     }
                 },
                 {
                     label: "Save",
-                    accelerator: "Command+S",
+                    accelerator: "CmdOrCtrl+S",
                     click: function() {
                         mainWindow.webContents.send('save');
                     }
@@ -126,8 +125,8 @@ function createWindow() {
                     selector: "selectAll:"
                 },
                 {
-                    label: '&Reload',
-                    accelerator: 'Ctrl+R',
+                    label: 'Reload',
+                    accelerator: 'CmdOrCtrl+R',
                     click: function() {
                         app.relaunch({
                             args: process.argv.slice(1).concat(['--relaunch'])
@@ -137,14 +136,14 @@ function createWindow() {
                 },
                 {
                     label: 'Toggle &Full Screen',
-                    accelerator: 'F11',
+                    accelerator: 'CmdOrCtrl+F',
                     click: function() {
                         mainWindow.setFullScreen(!mainWindow.isFullScreen());
                     }
                 },
                 {
                     label: 'Toggle &Developer Tools',
-                    accelerator: 'Alt+Ctrl+I',
+                    accelerator: 'CmdOrCtrl+Shift+D',
                     click: function() {
                         mainWindow.toggleDevTools();
                     }
@@ -174,8 +173,5 @@ app.on('activate', function() {
 
 // レンダラー側からPDF印刷要求が来たら
 ipc.on("return_size", (event, width, height) => {
-    console.log(width)
-    console.log(height)
-    // console.log(content);
     mainWindow.webContents.send("return_size_content", width, height);
 });

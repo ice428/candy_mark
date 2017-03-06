@@ -53,10 +53,10 @@ function createWindow() {
                     }
                 },
                 {
-                    label: "Save",
-                    accelerator: "Command+S",
+                    label: "New",
+                    accelerator: "Command+N",
                     click: function() {
-                        mainWindow.webContents.send('save');
+                        mainWindow.webContents.send('new');
                     }
                 },
                 {
@@ -67,17 +67,24 @@ function createWindow() {
                     }
                 },
                 {
-                    label: "New",
-                    accelerator: "Command+N",
+                    label: "Save",
+                    accelerator: "Command+S",
                     click: function() {
-                        mainWindow.webContents.send('new');
+                        mainWindow.webContents.send('save');
+                    }
+                },
+                {
+                    label: "SaveAs",
+                    accelerator: "Command+Shift+S",
+                    click: function() {
+                        mainWindow.webContents.send('save_as');
                     }
                 },
                 {
                     label: "PrintPDF",
                     accelerator: "Command+P",
                     click: function() {
-						// console.log(mainWindow.webContents.webContents)
+                        // console.log(mainWindow.webContents.webContents)
                         mainWindow.webContents.send('print_pdf');
                     }
                 }
@@ -122,7 +129,10 @@ function createWindow() {
                     label: '&Reload',
                     accelerator: 'Ctrl+R',
                     click: function() {
-                        mainWindow.restart();
+                        app.relaunch({
+                            args: process.argv.slice(1).concat(['--relaunch'])
+                        })
+                        app.exit(0)
                     }
                 },
                 {
@@ -164,8 +174,8 @@ app.on('activate', function() {
 
 // レンダラー側からPDF印刷要求が来たら
 ipc.on("return_size", (event, width, height) => {
-	console.log(width)
-		console.log(height)
+    console.log(width)
+    console.log(height)
     // console.log(content);
     mainWindow.webContents.send("return_size_content", width, height);
 });

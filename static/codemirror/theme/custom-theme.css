@@ -1,8 +1,8 @@
-.cm-s-custom-theme.CodeMirror { background: #2a3140; color: #202020; font-family:Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;}
+.cm-s-custom-theme.CodeMirror { background: #2a2f4a; color: #202020; font-family:Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;}
 .cm-s-custom-theme div.CodeMirror-selected { background: #e0e0e0; }
 .cm-s-custom-theme .CodeMirror-line::selection, .cm-s-custom-theme .CodeMirror-line > span::selection, .cm-s-custom-theme .CodeMirror-line > span > span::selection { background: #e0e0e0; }
 .cm-s-custom-theme .CodeMirror-line::-moz-selection, .cm-s-custom-theme .CodeMirror-line > span::-moz-selection, .cm-s-custom-theme .CodeMirror-line > span > span::-moz-selection { background: #e0e0e0; }
-.cm-s-custom-theme .CodeMirror-gutters { background: #2a3140; border-right: 0px; }
+.cm-s-custom-theme .CodeMirror-gutters { background: #2a2f4a; border-right: 0px; }
 .cm-s-custom-theme .CodeMirror-guttermarker { color: #ac4142; }
 .cm-s-custom-theme .CodeMirror-guttermarker-subtle { color: #b0b0b0; }
 .cm-s-custom-theme .CodeMirror-linenumber { color: #7780a5; }
@@ -17,7 +17,7 @@
 .cm-s-custom-theme span.cm-string { color: #f4bf75; }
 
 .cm-s-custom-theme span.cm-variable { color: #90a959; }
-.cm-s-custom-theme span.cm-variable-2 { color: #658bb3; font-weight: lighter;}
+.cm-s-custom-theme span.cm-variable-2 { color: #8eb0d4; font-weight: lighter;}
 .cm-s-custom-theme span.cm-def { color: #d28445; }
 .cm-s-custom-theme span.cm-bracket { color: #202020; }
 .cm-s-custom-theme span.cm-tag { color: #ac4142; }
@@ -33,8 +33,8 @@
 .cm-s-custom-theme span.cm-header.cm-header-5{color: #de9b38; font-weight: lighter;}
 .cm-s-custom-theme span.cm-header.cm-header-6{color: #de9b38; font-weight: lighter;}*/
 .cm-s-custom-theme span.cm-header.cm-header-1{color: #22aeb5;}
-.cm-s-custom-theme span.cm-header.cm-header-2{color: #6c6fd4;}
-.cm-s-custom-theme span.cm-header.cm-header-3{color: #d46895;}
+.cm-s-custom-theme span.cm-header.cm-header-2{color: #7d7aec;}
+.cm-s-custom-theme span.cm-header.cm-header-3{color: #dc5d92;}
 .cm-s-custom-theme span.cm-header.cm-header-4{color: #de9b38;}
 .cm-s-custom-theme span.cm-header.cm-header-5{color: #de9b38;}
 .cm-s-custom-theme span.cm-header.cm-header-6{color: #de9b38;}
