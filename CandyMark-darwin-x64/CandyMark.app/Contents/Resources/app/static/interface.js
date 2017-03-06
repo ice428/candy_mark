@@ -35,7 +35,7 @@ function loadFile() {
                     }
                     mdEditor.setValue(text.toString());
                 });
-                $("title").text(filenames[0]);
+                $("#path_area").html(filenames[0]);
 				// 実行ディレクトリの変更
 				__dirname = path.dirname(filenames[0])
             }
@@ -47,7 +47,7 @@ ipc.on('open', function() {
 
 // ファイル保存
 function saveFile() {
-    if ($('title').text() == "") {
+    if (footerVm.currentPath == "") {
         saveNewFile();
         return;
     } else {
@@ -61,7 +61,7 @@ function saveFile() {
             function(res) {
                 if (res == 0) {
                     var data = mdEditor.getValue();
-                    writeFile($('title').text(), data);
+                    writeFile(footerVm.currentPath, data);
                 }
             }
         );
@@ -81,7 +81,7 @@ function saveNewFile() {
         function(fileName) {
             if (fileName) {
                 var data = mdEditor.getValue();
-                $('title').text(fileName);
+                footerVm.currentPath = fileName;
 				// 実行ディレクトリの変更
 				__dirname = path.dirname(fileName)
                 writeFile(fileName, data);
@@ -101,14 +101,11 @@ function writeFile(path, data) {
 ipc.on('save', function() {
     saveFile();
 });
-ipc.on('save_as', function() {
-    saveNewFile();
-});
 
 // 新規ファイル作成
 function newFile() {
     mdEditor.setValue("");
-    $('title').text("(untitled)");
+    footerVm.currentPath = "";
 }
 ipc.on('new', function() {
     newFile();
