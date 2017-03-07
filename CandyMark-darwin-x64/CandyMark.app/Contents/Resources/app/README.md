@@ -23,6 +23,7 @@
 - presentation support
 - export HTML
 - file browser
+- screenshot
 
 ## License
 MIT. Copyright (c) Keito Ohsawa.
