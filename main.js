@@ -154,7 +154,7 @@ function createWindow() {
                 },
                 {
                     label: 'Toggle &Developer Tools',
-                    accelerator: 'CmdOrCtrl+Shift+D',
+                    // accelerator: 'CmdOrCtrl+Shift+D',
                     click: function() {
                         mainWindow.toggleDevTools();
                     }

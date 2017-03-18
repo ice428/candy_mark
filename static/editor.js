@@ -89,7 +89,7 @@ mdEditor.on('change', function(e) {
     webview.send('update-markdown', marked_text);
 });
 mdEditor.on('inputRead', function(e) {
-    setTimeout(md_update, 3000);
+    setTimeout(md_update, 1000);
 });
 
 // 同期スクロール
