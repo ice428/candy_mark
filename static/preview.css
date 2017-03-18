@@ -1,6 +1,8 @@
 .remark-container {
     background: #322e3a;
 }
+
+
 /*
 @media print {
     .mermaid {
@@ -25,7 +27,8 @@ h3 {
 }
 
 body {
-    background: #f7f7f7;
+    background: #f6f6f6;
+    /*background: #2f3244;*/
 }
 
 #preview {
@@ -37,40 +40,22 @@ body {
 
 .mermaid {
     margin: 30px 0px;
-    background: white;
-    border-radius: 5px;
-    border: 1px solid;
+    /*background: white;*/
+    /*border-radius: 5px;*/
+    /*border: 1px solid;*/
     overflow: scroll;
 }
 
 .katex-display {
     padding: 20px;
-    color: rgb(71, 140, 169);
+    color: rgb(193, 227, 245);
     overflow: scroll;
-    background: #fff;
-    border-radius: 5px;
-    border: 1px solid;
+    background: #2f3244;
+    border-radius: 3px;
+    /*border: 1px solid;*/
 }
 
 code {
     border-radius: 5px;
     font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
 }
-/*.columns{
-	position: relative;
-	width: 100%
-	margin: 5% 0;
-	background: white;
-}
-.columns:before{
-    padding-top: 75%;
-    display: block;
-    content: "";
-}
-.source{
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-}*/

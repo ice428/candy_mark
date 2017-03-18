@@ -52,31 +52,38 @@ function createWindow() {
                     }
                 },
                 {
-                    label: "New",
+                    label: "New Content",
                     accelerator: "CmdOrCtrl+N",
                     click: function() {
                         mainWindow.webContents.send('new');
                     }
                 },
                 {
-                    label: "Open",
-                    accelerator: "CmdOrCtrl+O",
-                    click: function() {
-                        mainWindow.webContents.send('open');
-                    }
-                },
-                {
-                    label: "Save",
+                    label: "Save Content",
                     accelerator: "CmdOrCtrl+S",
                     click: function() {
                         mainWindow.webContents.send('save');
                     }
                 },
                 {
-                    label: "SaveAs",
-                    accelerator: "Command+Shift+S",
+                    label: 'Delete',
+                    accelerator: 'CmdOrCtrl+Shift+D',
                     click: function() {
-                        mainWindow.webContents.send('save_as');
+                        mainWindow.webContents.send('remove');
+                    }
+                },
+                {
+                    label: "Import Markdown",
+                    // accelerator: "CmdOrCtrl+O",
+                    click: function() {
+                        mainWindow.webContents.send('import_md');
+                    }
+                },
+                {
+                    label: "Export Markdown",
+                    // accelerator: "Command+Shift+S",
+                    click: function() {
+                        mainWindow.webContents.send('export_md');
                     }
                 },
                 {
@@ -125,13 +132,17 @@ function createWindow() {
                     selector: "selectAll:"
                 },
                 {
-                    label: 'Reload',
-                    accelerator: 'CmdOrCtrl+R',
+                    label: 'Toggle Comment',
+                    accelerator: 'CmdOrCtrl+K',
                     click: function() {
-                        app.relaunch({
-                            args: process.argv.slice(1).concat(['--relaunch'])
-                        })
-                        app.exit(0)
+                        mainWindow.webContents.send('comment_out');
+                    }
+                },
+                {
+                    label: 'Toggle Display Mode',
+                    accelerator: 'CmdOrCtrl+L',
+                    click: function() {
+                        mainWindow.webContents.send('display_toggle');
                     }
                 },
                 {
