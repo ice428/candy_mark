@@ -1,8 +1,7 @@
 # CandyMark
-<p style="text-align:center;margin:10px;">CandyMark is a simple markdown editor.</p>
-<div style="text-align:center;margin:10px">
-<img src="./icon.png">
-</div>
+CandyMark is a simple markdown editor.
+
+![](./screen.png)
 
 ## Features
 - Live preview
@@ -11,9 +10,6 @@
 - Katex support
 - PDF export support
 - Fast Synchronized Scroll
-
-## Screenshot
-![](./screen.png)
 
 ## Usage
 - `mermaid` code block will render mermaid diagrams.
