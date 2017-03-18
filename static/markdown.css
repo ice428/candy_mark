@@ -2,7 +2,7 @@ body {
     font-family: Helvetica, arial, sans-serif;
     font-size: 1em;
     line-height: 1.6;
-	padding: 0px 10px;
+    padding: 0px 10px;
 }
 
 body>*:first-child {
@@ -369,7 +369,7 @@ pre code {
 }
 
 pre {
-	margin: 0px;
+    margin: 0px;
     font-size: 1em;
     line-height: 20px;
     overflow: auto;
@@ -383,9 +383,10 @@ pre code, pre tt {
 }
 
 .code_block {
-    color: #555;
-    background: #fff;
-	border: 1px solid #ccc;
+    font-size: small;
+    color: #58ccd4;
+    background: #2f3244;
+    /*border: 1px solid #ccc;*/
     /*
 box-shadow:0px 0px 6px 3px #d4d4d4;
 -moz-box-shadow:0px 0px 6px 3px #d4d4d4;
