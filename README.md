@@ -5,13 +5,25 @@ CandyMark is a simple markdown editor.
 
 ## Features
 - Live preview
-- GitHub Flavored Markdown support
-- mermaid.js support
-- Katex support
-- PDF export support
-- Fast Synchronized Scroll
+- GitHub Flavored Markdown
+- support `mermaid.js`.
+- support `Katex.js`.
+- support Built-in Database.
+- support PDF export.
+- Fast Synchronized Scroll.
 
 ## Usage
+To debug application, enter command below in a terminal.
+```sh
+npm install
+npm start
+```
+To build application, enter command below in a terminal.
+```sh
+npm run build
+```
+
+## Writing
 - `mermaid` code block will render mermaid diagrams.
 - `math` code block will render KATeX.
 
@@ -22,4 +34,4 @@ CandyMark is a simple markdown editor.
 - screenshot
 
 ## License
-MIT. Copyright (c) Keito Ohsawa.
+MIT. Copyright (c) @icd428.

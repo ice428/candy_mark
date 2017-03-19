@@ -1,14 +1,6 @@
-.remark-container {
+html {
     background: #322e3a;
 }
-
-
-/*
-@media print {
-    .mermaid {
-        overflow: none;
-    }
-}*/
 
 h1 {
     font-size: 28px;
@@ -27,23 +19,13 @@ h3 {
 }
 
 body {
-    background: #f6f6f6;
-    /*background: #2f3244;*/
-}
-
-#preview {
-    /*padding: 0px 10px;*/
-    /*padding: 0px;*/
-    color: #4f5865;
-    /*heigh: 100%;*/
+    /*background: #f6f6f6;*/
+    background: #2f3244;
 }
 
 .mermaid {
     margin: 30px 0px;
-    /*background: white;*/
-    /*border-radius: 5px;*/
-    /*border: 1px solid;*/
-    overflow: scroll;
+    /*overflow: scroll;*/
 }
 
 .katex-display {
@@ -67,4 +49,112 @@ table {
 
 del {
     color: #d2d4da;
+}
+
+.adjust-box {
+    position: relative;
+    background: #EEE;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+html, body {
+    height: 100%;
+    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+    margin: auto;
+}
+
+h1, h2, h3, h4, h5, p, del, strong, ul, ol, li, pre, code, table, tbody, thead, tr, td, blockquote, .mermaid, svg {
+    font-size: 3vw;
+    margin: 1vw 0;
+    padding: 0;
+}
+
+ul, ol {
+    list-style-position: inside;
+}
+
+.inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#preview {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 72vw;
+    width: 86vw;
+    padding: 0px 5vw;
+    background: white;
+    color: #4f5865;
+}
+
+li {
+    margin: 0vw 0vw 0vw 3vw;
+}
+
+pre.code_block {
+    padding: 2vw;
+    width: initial;
+    border-radius: 1vw;
+    background: #eee;
+}
+
+.katex-display {
+    width: initial;
+    padding: 3vw;
+    border-radius: 1vw;
+    margin: 1vw 0vw;
+    font-size: 3vw;
+}
+
+h1 {
+    font-size: 5vw;
+}
+
+h2 {
+    font-size: 4vw;
+    border-bottom: 0.2vw solid #cccccc;
+}
+
+table {
+    margin: 2vw 0;
+}
+
+tr:nth-child(2n) {
+    background-color: #f6f6f6;
+}
+
+th {
+    border: 0.2vw solid #ddd;
+    padding: 1vw;
+}
+
+td {
+    border: 0.2vw solid #ddd;
+    padding: 1vw;
+}
+
+.mermaid {
+    margin: 1vw 0;
+    overflow: visible;
+    width: 89vw;
+}
+
+svg {
+    width: 100%;
+    height: initial;
+}
+
+blockquote {
+    border-left: 1vw solid #dddddd;
+    padding: 0 3vw;
+}
+
+blockquote p {
+    margin: 0;
 }

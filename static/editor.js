@@ -18,7 +18,8 @@ var renderer = new marked.Renderer();
 renderer.code = function(code, lang) {
     if (lang === "mermaid") {
         // return mermaid.parse(code);
-        return '<div class="mermaid" style="overflow:auto">' + code + '</div>';
+        // return '<div class="mermaid" style="overflow:auto">' + code + '</div>';
+        return '<div class="mermaid">' + code + '</div>';
     } else if (lang === "math") {
         var katex_parsed = "";
         try {
