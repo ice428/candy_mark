@@ -4,7 +4,8 @@ const {
 
 const mode_document = 0;
 const mode_slide = 1;
-var mode = mode_document;
+let mode = mode_document;
+let slide_index = 0;
 
 // イベントハンドラー群
 ipcRenderer.on('scroll_preview', (event, length) => {
@@ -33,17 +34,26 @@ ipcRenderer.on('update-markdown', (event, markdown) => {
     switch (mode) {
         case mode_document:
             // ドキュメントを作る場合
-            source = document.getElementById('preview');
-            source.innerHTML = markdown;
+            document.getElementById('preview').innerHTML = markdown;
             mermaid.init();
+            // document.getElementsByClassName('slide').innerHTML = markdown;
+            $('.slide').hide();
+            $($('.slide')[slide_index]).show();
+            // source[1].innerHTML = markdown;
             break;
         case mode_slide:
             // // スライドショーを作る場合
             // source = document.getElementById('source');
-			// markdown = markdown.replace(/<hr>/g,'---')
-			// console.log(markdown)
+            // markdown = markdown.replace(/<hr>/g,'---')
+            // console.log(markdown)
             // source.innerHTML = markdown
             // mermaid.init();
             break;
     }
+});
+
+ipcRenderer.on('update_slide_index', (event, index) => {
+    slide_index = index;
+    $('.slide').hide();
+    $($('.slide')[slide_index]).show();
 });

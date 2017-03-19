@@ -41,6 +41,9 @@ renderer.image = function(href, title, text) {
     }
     return '<img src="' + href + '" alt="' + text + '"' + ' title="' + title + '"' + '>';
 };
+renderer.hr = function() {
+    return '</div><div class="slide">'
+}
 marked.setOptions({
     renderer: renderer,
     gfm: true
@@ -83,10 +86,27 @@ ipc.on('comment_out', function() {
         })
     }
 });
+// スライドモード用の読み出し関数
+var mdEditor_read_slide = function() {
+    let current = mdEditor.getCursor();
+    let first_line = mdEditor.firstLine();
+    let first_ch = 0;
+    let header = mdEditor.getRange({
+        line: first_line,
+        ch: first_ch
+    }, current)
+    let section_count = header.match(/---/g);
+    if (section_count === null) {
+        return 0;
+    } else {
+        return section_count.length;
+    }
+}
 // エディタのデータを転送
 mdEditor.on('change', function(e) {
     mdEditor.save();
-    var marked_text = marked($('#editor-div').val());
+    var marked_text = '<div class="slide">' + marked($('#editor-div').val()) + '</div>';
+    // var marked_text = marked(mdEditor_read_slide());
     webview.send('update-markdown', marked_text);
 });
 mdEditor.on('inputRead', function(e) {
@@ -110,7 +130,10 @@ var synchronized_scroll = function() {
     webview.send('scroll_preview', current.length);
 };
 // 高速同期スクロール
-mdEditor.on("cursorActivity", synchronized_scroll);
+mdEditor.on('cursorActivity', function(e) {
+    webview.send('update_slide_index', mdEditor_read_slide());
+    // synchronized_scroll();
+});
 
 // // ドキュメント表示に変更
 // var style_doc = function() {

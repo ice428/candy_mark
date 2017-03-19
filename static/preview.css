@@ -61,11 +61,11 @@ del {
 
 html, body {
     height: 100%;
-    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+    font-family: Helvetica, arial, sans-serif;
     margin: auto;
 }
 
-h1, h2, h3, h4, h5, p, del, strong, ul, ol, li, pre, code, table, tbody, thead, tr, td, blockquote, .mermaid, svg {
+h1, h2, h3, h4, h5, p, del, strong, ul, ol, li, pre, code, table, tbody, thead, tr, td, blockquote {
     font-size: 3vw;
     margin: 1vw 0;
     padding: 0;
@@ -141,6 +141,7 @@ td {
 
 .mermaid {
     margin: 1vw 0;
+    padding: 0;
     overflow: visible;
     width: 89vw;
 }
