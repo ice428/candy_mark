@@ -36,7 +36,6 @@
 					<textarea id="editor-div" v-model="input"></textarea>
 				</div>
 				<div class="pane" id="preview_pane">
-					<!-- <div id="preview" v-html="input|marked"></div> -->
 					<webview id="webview" src="preview.html" preload="static/preview.js"></webview>
 				</div>
 			</div>
@@ -50,8 +49,9 @@
 				</div>
 
 				<div class="btn-group pull-right">
-					<button class="btn btn-default" id="mode_edit"><span class="icon icon-feather"></span></button>
-					<button class="btn btn-default" id="mode_display"><span class="icon icon-monitor"></span></button>
+					<button class="btn btn-default" id="preview_basic"><span class="icon icon-feather"></span></button>
+					<button class="btn btn-default" id="preview_slide_list"><span class="icon icon-doc-text"></span></button>
+					<button class="btn btn-default" id="preview_slide_single"><span class="icon icon-monitor"></span></button>
 				</div>
 			</div>
 		</footer>

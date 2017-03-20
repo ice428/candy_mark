@@ -2,58 +2,65 @@ const {
     ipcRenderer
 } = require('electron');
 
-const mode_document = 0;
-const mode_slide = 1;
-let mode = mode_document;
-let slide_index = 0;
+let preview_mode = "preview_slide_single";
 
-// イベントハンドラー群
-ipcRenderer.on('scroll_preview', (event, length) => {
-    synchronized_scroll(length);
-});
-ipcRenderer.on('mode_document', (event, length) => {
-    mode = mode_document;
-    $("#preview").show();
-    $(".container").hide();
-});
-ipcRenderer.on('mode_slide', (event, length) => {
-    mode = mode_slide;
-    $("#preview").hide();
-    $(".container").show();
+var sync_scroll_basic = function(length) {
+    // 現在行までのテキストを取得
+    var total = $("#preview").find("h1, h2, h3, h4, h5, h6")
+    $(document.body).animate({
+        scrollTop: total[length].offsetTop
+    }, 100, "swing");
+};
+var sync_scroll_slide = function(length) {
+    // 現在行までのテキストを取得
+    var total = $("#preview").find(".slide")
+    $(document.body).animate({
+        scrollTop: total[length].offsetTop
+    }, 100, "swing");
+};
+
+ipcRenderer.on('preview_mode', (event, mode) => {
+    preview_mode = mode;
+    switch (preview_mode) {
+        case "preview_basic":
+            $('#preview_mode').attr("href", "static/preview_basic.css");
+            break;
+        case "preview_slide_list":
+            $('#preview_mode').attr("href", "static/preview_slide_list.css");
+            break;
+        case "preview_slide_single":
+            $('#preview_mode').attr("href", "static/preview_slide_single.css");
+            break;
+    }
 });
 
 ipcRenderer.on('get_size', (event) => {
     console.log($('body').width())
     console.log($('body').height())
     ipcRenderer.send('return_size', $('body').width(), $('body').height())
-    // synchronized_scroll(length);
 });
 
 ipcRenderer.on('update-markdown', (event, markdown) => {
-    let source
-    switch (mode) {
-        case mode_document:
-            // ドキュメントを作る場合
-            document.getElementById('preview').innerHTML = markdown;
-            mermaid.init();
-            // document.getElementsByClassName('slide').innerHTML = markdown;
-            $('.slide').hide();
-            $($('.slide')[slide_index]).show();
-            // source[1].innerHTML = markdown;
-            break;
-        case mode_slide:
-            // // スライドショーを作る場合
-            // source = document.getElementById('source');
-            // markdown = markdown.replace(/<hr>/g,'---')
-            // console.log(markdown)
-            // source.innerHTML = markdown
-            // mermaid.init();
-            break;
-    }
+    // $('#preview').hide();
+    document.getElementById('preview').innerHTML = markdown;
+    mermaid.init();
 });
 
-ipcRenderer.on('update_slide_index', (event, index) => {
-    slide_index = index;
-    $('.slide').hide();
-    $($('.slide')[slide_index]).show();
+// イベントハンドラー群
+ipcRenderer.on('display_position', (event, length, index) => {
+    switch (preview_mode) {
+        case "preview_basic":
+            $('.slide').show();
+            sync_scroll_basic(length);
+            break;
+        case "preview_slide_list":
+            $('.slide').show();
+            sync_scroll_slide(length);
+            break;
+        case "preview_slide_single":
+            $('.slide').hide();
+            $($('.slide')[index]).show();
+            break;
+    }
+    // $('#preview').show();
 });

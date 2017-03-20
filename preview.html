@@ -9,26 +9,12 @@
 	<link rel="stylesheet" href="static/mermaid/mermaid.forest.css">
 	<link rel="stylesheet" href="static/katex/katex.min.css">
 	<link rel="stylesheet" href="static/highlight/atom-one-light.css">
-	<link rel="stylesheet" href="static/preview.css">
+	<link rel="stylesheet" href="static/preview_slide_single.css" id="preview_mode">
 </head>
 
 <body>
-	<!-- <div id="preview"></div> -->
-	<!-- <div class="adjust-box box-1x1"> -->
-	<div class="inner">
-		<div id="preview"></div>
-		<!-- <div class="preview"></div> -->
-		<!-- <h1>menu</h1>
-			<h2>header1</h2>
-			<strong>to header1</strong>
-			<p>to header2</p> -->
-		<!-- some long code -->
-		<!-- <del>to menu</del>
-			<h3>header2</h3> -->
+	<div class="inner" id="preview">
 	</div>
-	<!-- </div> -->
-	<!-- </div> -->
-	<!-- <script src="static/remark/remark.min.js" type="text/javascript"></script> -->
 	<script src="static/mermaid/mermaid.min.js"></script>
 	<script src="static/jquery/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -46,16 +32,7 @@
 
 		window.onload = function() {
 			mermaid.initialize(mermaid_config);
-			// $("#source").hide();
 		}
-
-		var synchronized_scroll = function(length) {
-			// 現在行までのテキストを取得
-			// var total = $("#preview").find("h1, h2, h3, h4, h5, h6")
-			// $(document.body).animate({
-			// 	scrollTop: total[length].offsetTop
-			// }, 100, "swing");
-		};
 	</script>
 </body>
 

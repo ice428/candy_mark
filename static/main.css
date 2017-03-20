@@ -5,20 +5,20 @@ body {
 .sidebar {
     background-color: #fafafa;
     /*darktheme*/
-    background-color: #2f3244;
+    /*background-color: #2f3244;*/
 }
 
 .pane {
     border-left: 1px solid #eeeeee;
     /*darktheme*/
-    border-left: 1px solid #242633;
+    /*border-left: 1px solid #242633;*/
 }
 
 .list-group-item {
     color: #6c798a;
     border-top: 1px solid #eeeeee;
     /*darktheme*/
-    border-top: 1px solid #242633;
+    /*border-top: 1px solid #242633;*/
 }
 
 .CodeMirror {
@@ -44,42 +44,16 @@ body {
     background: linear-gradient(to right, rgba(240, 57, 124, 1) 0%, rgba(240, 152, 120, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0397c', endColorstr='#f09878', GradientType=1);
     color: white;
+    background: rgba(36, 180, 224, 1);
+    background: -moz-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(36, 180, 224, 1)), color-stop(100%, rgba(49, 224, 209, 1)));
+    background: -webkit-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: -o-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: linear-gradient(to right, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24b4e0', endColorstr='#31e0d1', GradientType=1);
 }
 
 webview {
     height: 100%;
 }
-
-div#path_area {
-    float: left;
-    margin-left: 10px;
-    font-size: x-small;
-    color: #627092;
-}
-
-.toolbar-footer {
-    border-top: none;
-}
-
-
-/*.toolbar{
-	box-shadow:none;
-	background-image:none;
-	background: #1d1b2b;
-}*/
-
-
-/*.btn-default{
-	border: none;
-	background: #75bac1;
-	color: white;
-}
-.btn .icon{
-	color: white;
-}
-.pull-right{
-	padding-right: 3px;
-}
-.btn-group .btn + .btn{
-	border-left: 1px solid transparent;
-}*/

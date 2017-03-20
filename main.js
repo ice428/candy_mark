@@ -27,8 +27,12 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1100,
         height: 500,
-        title: "CandyMark"
+        title: "CandyMark",
+        show: false
     });
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show()
+    })
     // devtools
     // mainWindow.webContents.openDevTools();
     mainWindow.loadURL("file://" + __dirname + "/index.html");
@@ -133,7 +137,7 @@ function createWindow() {
                 },
                 {
                     label: 'Toggle Comment',
-                    accelerator: 'CmdOrCtrl+K',
+                    accelerator: 'CmdOrCtrl+/',
                     click: function() {
                         mainWindow.webContents.send('comment_out');
                     }

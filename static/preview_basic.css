@@ -1,0 +1,109 @@
+html, body {
+    font-family: Helvetica, arial, sans-serif;
+    color: #415169;
+    height: 100%;
+    font-size: 10px;
+    margin: auto;
+    padding: 0
+}
+
+h1, h2, h3, h4, h5, p, del, strong, ul, ol, li, pre, code, table, tbody, thead, tr, td, blockquote {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+    padding: 0;
+}
+
+.inner {
+    padding: 0 1.7rem;
+}
+
+li {
+    margin: 0rem 0rem 0rem 3rem;
+}
+
+.code_block {
+    background: #fafafa;
+    padding: 1.3rem;
+    width: initial;
+    border-radius: 0.5rem;
+}
+
+code {
+    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 1.3rem;
+    overflow: auto;
+}
+
+.katex-display {
+    background: #fafafa;
+    overflow: scroll;
+    width: initial;
+    padding: 1.6rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0rem;
+    font-size: 1.6rem;
+}
+
+h1 {
+    color: rgb(78, 162, 173);
+    font-size: 2.7rem;
+}
+
+h2 {
+    color: #636367;
+    font-size: 2.2rem;
+    border-bottom: 0.1rem solid #cccccc;
+}
+
+h3 {
+    color: #909090;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 2rem 0;
+}
+
+tr:nth-child(2n) {
+    background-color: #eee;
+}
+
+th {
+    background: #53d2c3;
+    color: white;
+    border: 0.1rem solid #46a593;
+    padding: 1rem;
+}
+
+td {
+    border: 0.1rem solid #afafaf;
+    padding: 1rem;
+}
+
+.mermaid {
+    margin: 1rem 0;
+    padding: 0;
+    overflow: scroll;
+    width: initial;
+}
+
+svg {
+    width: 100%;
+    /*height: initial;*/
+}
+
+blockquote {
+    border-left: 0.5rem solid #dddddd;
+    padding: 0 2rem;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+del {
+    color: #d2d4da;
+}

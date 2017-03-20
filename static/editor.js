@@ -86,8 +86,8 @@ ipc.on('comment_out', function() {
         })
     }
 });
-// スライドモード用の読み出し関数
-var mdEditor_read_slide = function() {
+// 現在のスライド番号算出
+var get_slide_index = function() {
     let current = mdEditor.getCursor();
     let first_line = mdEditor.firstLine();
     let first_ch = 0;
@@ -106,17 +106,16 @@ var mdEditor_read_slide = function() {
 mdEditor.on('change', function(e) {
     mdEditor.save();
     var marked_text = '<div class="slide">' + marked($('#editor-div').val()) + '</div>';
-    // var marked_text = marked(mdEditor_read_slide());
     webview.send('update-markdown', marked_text);
 });
 mdEditor.on('inputRead', function(e) {
     setTimeout(md_update, 1000);
 });
 
-// 同期スクロール
-var synchronized_scroll = function() {
+// 現在のカーソル位置取得
+const get_content_position = function() {
     // 現在行までのテキストを取得
-    var range = mdEditor.getRange({
+    let range = mdEditor.getRange({
         line: 0,
         ch: null
     }, {
@@ -124,36 +123,43 @@ var synchronized_scroll = function() {
         ch: null
     });
     // パースしてDOMを生成
-    var parser = new DOMParser();
-    var dom_tree = parser.parseFromString(marked(range), 'text/html');
-    var current = dom_tree.body.querySelectorAll("h1, h2, h3, h4, h5, h6");
-    webview.send('scroll_preview', current.length);
+    let parser = new DOMParser();
+    let dom_tree = parser.parseFromString(marked(range), 'text/html');
+    let current = dom_tree.body.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    return current.length
 };
-// 高速同期スクロール
+// previewの位置同期用
+const sync_position = function() {
+    // カーソル位置取得
+    let content_position = get_content_position();
+    // スライド番号取得
+    let slide_index = get_slide_index();
+    webview.send('display_position', content_position, slide_index);
+}
+// カーソル移動時
 mdEditor.on('cursorActivity', function(e) {
-    webview.send('update_slide_index', mdEditor_read_slide());
-    // synchronized_scroll();
+    sync_position();
 });
 
-// // ドキュメント表示に変更
-// var style_doc = function() {
-//     webview.send('mode_document');
-// };
-// // スライド表示に変更
-// var style_slide = function() {
-//     webview.send('mode_slide');
-// };
-
-// ドキュメント表示に変更
-var mode_edit = function() {
-    $("#editor_pane").show();
+// basicに切替
+var preview_basic = function() {
+    webview.send('preview_mode', "preview_basic");
+    sync_position();
 };
-// スライド表示に変更
-var mode_display = function() {
-    $("#editor_pane").hide();
+// listに切り替え
+var preview_slide_list = function() {
+    webview.send('preview_mode', "preview_slide_list");
+    sync_position();
 };
+// singleに切り替え
+var preview_slide_single = function() {
+    webview.send('preview_mode', "preview_slide_single");
+    sync_position();
+};
+// 表示モードのトグル
 ipc.on('display_toggle', function() {
     $("#editor_pane").toggle();
+    mdEditor.setCursor(mdEditor.getCursor());
 });
 
 // 新しいデータベースの作成
@@ -312,13 +318,11 @@ webview.addEventListener('dom-ready', () => {
 });
 
 $(function() {
-    // $('#style_doc').on('click', style_doc);
-    // $('#style_slide').on('click', style_slide);
-    $('#mode_edit').on('click', mode_edit);
-    $('#mode_display').on('click', mode_display);
+    $('#preview_basic').on('click', preview_basic);
+    $('#preview_slide_list').on('click', preview_slide_list);
+    $('#preview_slide_single').on('click', preview_slide_single);
     $('.md_create').on('click', md_create);
     $('.md_update').on('click', md_update);
-    // $('.md_read').on('click', md_read);
     $('.md_delete').on('click', md_delete);
 });
 
@@ -364,8 +368,10 @@ ipc.on('return_size_content', function(event, width, height) {
     let dpi = calc_dpi()
     webview.printToPDF({
         pageSize: {
-            width: parseInt(width * 25.4 / dpi * 1000 * 1.3),
-            height: parseInt(height * 25.4 / dpi * 1000 * 1.2)
+            // width: parseInt(width * 25.4 / dpi * 1000 * 1.3),
+            // height: parseInt(height * 25.4 / dpi * 1000 * 1.2)
+            width: parseInt(width * 25.4 / dpi * 1000),
+            height: parseInt(height * 25.4 / dpi * 1000)
         }
     }, function(error, data) {
         if (error) throw error
