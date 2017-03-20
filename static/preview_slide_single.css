@@ -2,6 +2,8 @@ html, body {
     height: 100%;
     margin: auto;
     font-family: Helvetica, arial, sans-serif;
+    /*font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;*/
+    /*font-family: "Hiragino Maru Gothic Pro", "Hiragino Kaku Gothic Pro", "HGMaruGothicMPRO";*/
     color: #415169;
     /*font-size: 3vw;*/
     background: #1b1b1b;

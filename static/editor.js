@@ -1,10 +1,12 @@
 const electron = require('electron');
 const ipc = electron.ipcRenderer;
 const remote = electron.remote;
+const remote_app = remote.app;
 const browserWindow = remote.BrowserWindow;
 const dialog = remote.dialog;
 const shell = electron.shell
 const fs = require("fs");
+const path = require("path");
 const marked = require('marked');
 const Datastore = require('nedb');
 const webview = document.getElementById('webview');
@@ -109,7 +111,7 @@ mdEditor.on('change', function(e) {
     webview.send('update-markdown', marked_text);
 });
 mdEditor.on('inputRead', function(e) {
-    setTimeout(md_update, 1000);
+    md_update();
 });
 
 // 現在のカーソル位置取得
@@ -164,10 +166,13 @@ ipc.on('display_toggle', function() {
 
 // 新しいデータベースの作成
 const db = new Datastore({
-    filename: '/Users/azure/Google Drive/contents.db',
-    autoload: true,
+    filename: path.join(remote_app.getAppPath(), '/contents.db'),
+    // '/Users/azure/Google Drive/contents.db',
+    // autoload: true,
     timestampData: true
 });
+console.log(path.join(remote_app.getAppPath(), '/contents.db'))
+db.loadDatabase();
 // create
 const md_create = function() {
     let title = "new";
@@ -206,7 +211,7 @@ const md_update = function() {
             content: content
         }
     }, {}, function(err, numReplaced) {
-        console.log(err + "/" + numReplaced);
+        // console.log(err + "/" + numReplaced);
         db.find().sort({
             updatedAt: -1
         }).exec(function(err, docs) {
@@ -295,7 +300,7 @@ const app = new Vue({
         filteredView() {
             return this.list.filter(l => {
                 let query = this.searchQuery.replace(/ /g, "(.|\n)*");
-                console.log(query);
+                // console.log(query);
                 return l.content.match(new RegExp(query, "i"));
             })
         }
@@ -306,7 +311,7 @@ const app = new Vue({
     }
 })
 webview.addEventListener('dom-ready', () => {
-    webview.openDevTools()
+    // webview.openDevTools()
     // NeDBからデータを引っ張ってきてvueのデータを更新
     db.find().sort({
         updatedAt: -1

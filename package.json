@@ -5,7 +5,8 @@
     "main": "main.js",
     "author": "",
     "scripts": {
-        "start": "electron ."
+        "start": "electron .",
+        "build": "electron-packager . --icon=Candy.icns --overwrite"
     },
     "devDependencies": {
         "electron": "^1.4.1"

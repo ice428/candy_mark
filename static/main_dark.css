@@ -1,24 +1,22 @@
 body {
     font-size: 0.87em;
+    /*font-family: Helvetica, arial, sans-serif;*/
+    /*font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;*/
+    /*font-family: "Hiragino Maru Gothic Pro", "Hiragino Kaku Gothic Pro", "HGMaruGothicMPRO";*/
 }
 
 .sidebar {
-    background-color: #fafafa;
-    /*darktheme*/
-    /*background-color: #2f3244;*/
+    background-color: #2f3244;
 }
 
 .pane {
-    border-left: 1px solid #eeeeee;
-    /*darktheme*/
-    /*border-left: 1px solid #242633;*/
+    border-left: 1px solid #242633;
 }
 
 .list-group-item {
-    color: #6c798a;
-    border-top: 1px solid #eeeeee;
-    /*darktheme*/
-    /*border-top: 1px solid #242633;*/
+    /*color: #6c798a;*/
+    color: #686196;
+    border-top: 1px solid #242633;
 }
 
 .CodeMirror {
@@ -29,8 +27,9 @@ body {
 }
 
 .CodeMirror pre {
-    color: #72bec7;
-    color: #3c3d40;
+    /*color: #72bec7;
+    color: #b6d4ff;*/
+    color: #67bed4;
 }
 
 .list-group-item.active, .list-group-item.selected {

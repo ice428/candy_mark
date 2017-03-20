@@ -5,18 +5,24 @@ const {
 let preview_mode = "preview_slide_single";
 
 var sync_scroll_basic = function(length) {
-    // 現在行までのテキストを取得
-    var total = $("#preview").find("h1, h2, h3, h4, h5, h6")
-    $(document.body).animate({
-        scrollTop: total[length].offsetTop
-    }, 100, "swing");
+    if (length > 0) {
+        // 現在行までのテキストを取得
+        var total = $("#preview").find("h1, h2, h3, h4, h5, h6")
+        $(document.body).animate({
+            scrollTop: total[length].offsetTop
+        }, 100, "swing");
+
+    }
 };
 var sync_scroll_slide = function(length) {
-    // 現在行までのテキストを取得
-    var total = $("#preview").find(".slide")
-    $(document.body).animate({
-        scrollTop: total[length].offsetTop
-    }, 100, "swing");
+    if (length) {
+        // 現在行までのテキストを取得
+        var total = $("#preview").find(".slide")
+        $(document.body).animate({
+            scrollTop: total[length].offsetTop
+        }, 100, "swing");
+
+    }
 };
 
 ipcRenderer.on('preview_mode', (event, mode) => {
