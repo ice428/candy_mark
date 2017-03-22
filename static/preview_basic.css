@@ -30,12 +30,22 @@ li {
     border-radius: 0.5rem;
 }
 
+.code_block code {
+    border: none;
+    background-color: transparent;
+}
+
 code {
     font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
     white-space: pre-wrap;
     word-wrap: break-word;
     font-size: 1.3rem;
     overflow: auto;
+    margin: 0 0.2rem;
+    padding: 0 0.5rem;
+    border: 0.1rem solid #ffeeaf;
+    background-color: #fff8c1;
+    border-radius: 0.3rem;
 }
 
 .katex-display {
@@ -89,12 +99,13 @@ td {
     margin: 1rem 0;
     padding: 0;
     overflow: scroll;
-    width: initial;
+    width: 100%;
+    font-size: initial;
 }
 
 svg {
     width: 100%;
-    /*height: initial;*/
+    height: auto;
 }
 
 blockquote {

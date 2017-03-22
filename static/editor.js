@@ -13,7 +13,6 @@ const webview = document.getElementById('webview');
 let cur_id = "";
 hljs.initHighlightingOnLoad();
 
-
 // markedレンダラーの生成
 var renderer = new marked.Renderer();
 // codeブロックレンダラーの上書き
@@ -25,9 +24,7 @@ renderer.code = function(code, lang) {
     } else if (lang === "math") {
         var katex_parsed = "";
         try {
-            katex_parsed = katex.renderToString(code, {
-                displayMode: true
-            })
+            katex_parsed = katex.renderToString(code, {displayMode: true})
             return katex_parsed
         } catch (err) {
             return err
@@ -36,20 +33,17 @@ renderer.code = function(code, lang) {
         return '<pre class="code_block"><code>' + hljs.highlightAuto(code, [lang]).value + '</code></pre>'
     }
 };
-// 画像レンダラの上書き
-renderer.image = function(href, title, text) {
-    if (href.match(/\..*/)) {
-        href = __dirname + href.substr(1)
-    }
-    return '<img src="' + href + '" alt="' + text + '"' + ' title="' + title + '"' + '>';
-};
+// // 画像レンダラの上書き
+// renderer.image = function(href, title, text) {
+//     if (href.match(/\..*/)) {
+//         href = __dirname + href.substr(1)
+//     }
+//     return '<img src="' + href + '" alt="' + text + '"' + ' title="' + title + '"' + '>';
+// };
 renderer.hr = function() {
     return '</div><div class="slide">'
 }
-marked.setOptions({
-    renderer: renderer,
-    gfm: true
-});
+marked.setOptions({renderer: renderer, gfm: true});
 
 // コードミラーの設定
 var mdEditor = CodeMirror.fromTextArea(document.getElementById("editor-div"), {
@@ -181,9 +175,7 @@ const md_create = function() {
         title: title,
         content: content
     }, function(err, newDoc) {
-        db.find().sort({
-            updatedAt: -1
-        }).exec(function(err, docs) {
+        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
             cur_id = docs[0]._id;
             app.list = docs;
             mdEditor.setValue(docs[0].content);
@@ -212,9 +204,7 @@ const md_update = function() {
         }
     }, {}, function(err, numReplaced) {
         // console.log(err + "/" + numReplaced);
-        db.find().sort({
-            updatedAt: -1
-        }).exec(function(err, docs) {
+        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
             cur_id = docs[0]._id;
             app.list = docs;
         });
@@ -229,9 +219,7 @@ const md_delete = function() {
     db.remove({
         _id: id
     }, function() {
-        db.find().sort({
-            updatedAt: -1
-        }).exec(function(err, docs) {
+        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
             cur_id = docs[0]._id;
             app.list = docs;
             mdEditor.setValue(docs[0].content);
@@ -262,9 +250,7 @@ function md_example() {
             title: title,
             content: content
         }, function(err, newDoc) {
-            db.find().sort({
-                updatedAt: -1
-            }).exec(function(err, docs) {
+            db.find().sort({updatedAt: -1}).exec(function(err, docs) {
                 cur_id = docs[0]._id;
                 app.list = docs;
                 mdEditor.setValue(docs[0].content);
@@ -313,9 +299,7 @@ const app = new Vue({
 webview.addEventListener('dom-ready', () => {
     // webview.openDevTools()
     // NeDBからデータを引っ張ってきてvueのデータを更新
-    db.find().sort({
-        updatedAt: -1
-    }).exec(function(err, docs) {
+    db.find().sort({updatedAt: -1}).exec(function(err, docs) {
         app.list = docs;
         cur_id = docs[0]._id;
         mdEditor.setValue(docs[0].content);
@@ -348,25 +332,24 @@ ipc.on('print_pdf', function(event) {
 // PDF保存ダイアログ
 function savePdfDialog(data) {
     var win = browserWindow.getFocusedWindow();
-    dialog.showSaveDialog(
-        win, {
-            // properties: ['openFile'],
-            filters: [{
+    dialog.showSaveDialog(win, {
+        // properties: ['openFile'],
+        filters: [
+            {
                 name: 'Documents',
                 extensions: ['pdf']
-            }]
-        },
-        function(fileName) {
-            if (fileName) {
-                fs.writeFile(fileName, data, function(error) {
-                    if (error) {
-                        throw error
-                    }
-                    shell.openExternal('file://' + fileName)
-                })
             }
+        ]
+    }, function(fileName) {
+        if (fileName) {
+            fs.writeFile(fileName, data, function(error) {
+                if (error) {
+                    throw error
+                }
+                shell.openExternal('file://' + fileName)
+            })
         }
-    )
+    })
 }
 // メインスレッドからサイズが帰ってきた時に発火
 ipc.on('return_size_content', function(event, width, height) {
@@ -379,7 +362,8 @@ ipc.on('return_size_content', function(event, width, height) {
             height: parseInt(height * 25.4 / dpi * 1000)
         }
     }, function(error, data) {
-        if (error) throw error
+        if (error)
+            throw error
         savePdfDialog(data)
     })
 });
@@ -387,44 +371,42 @@ ipc.on('return_size_content', function(event, width, height) {
 // import
 function loadFile() {
     let win = browserWindow.getFocusedWindow();
-    dialog.showOpenDialog(
-        win, {
-            properties: ['openFile'],
-            filters: [{
+    dialog.showOpenDialog(win, {
+        properties: ['openFile'],
+        filters: [
+            {
                 name: 'Markdown',
                 extensions: ['md', 'markdown']
-            }]
-        },
-        function(filenames) {
-            if (filenames) {
-                fs.readFile(filenames[0], function(error, text) {
-                    if (error != null) {
-                        alert('error : ' + error);
-                        return;
-                    }
-                    mdEditor.setValue(text.toString());
-                    let content = text.toString();
-                    let title = content.match(/#.*/)[0];
-                    if (title === null) {
-                        title = "";
-                    } else {
-                        title = title.replace(/#.* /, "");
-                    }
-                    db.insert({
-                        title: title,
-                        content: content
-                    }, function(err, newDoc) {
-                        db.find().sort({
-                            updatedAt: -1
-                        }).exec(function(err, docs) {
-                            cur_id = docs[0]._id;
-                            app.list = docs;
-                            mdEditor.setValue(docs[0].content);
-                        });
+            }
+        ]
+    }, function(filenames) {
+        if (filenames) {
+            fs.readFile(filenames[0], function(error, text) {
+                if (error != null) {
+                    alert('error : ' + error);
+                    return;
+                }
+                mdEditor.setValue(text.toString());
+                let content = text.toString();
+                let title = content.match(/#.*/)[0];
+                if (title === null) {
+                    title = "";
+                } else {
+                    title = title.replace(/#.* /, "");
+                }
+                db.insert({
+                    title: title,
+                    content: content
+                }, function(err, newDoc) {
+                    db.find().sort({updatedAt: -1}).exec(function(err, docs) {
+                        cur_id = docs[0]._id;
+                        app.list = docs;
+                        mdEditor.setValue(docs[0].content);
                     });
                 });
-            }
-        });
+            });
+        }
+    });
 }
 ipc.on('import_md', function() {
     loadFile();
@@ -442,19 +424,18 @@ function writeFile(path, data) {
 function saveNewFile() {
     let win = browserWindow.getFocusedWindow();
     let content = mdEditor.getValue();
-    dialog.showSaveDialog(
-        win, {
-            filters: [{
+    dialog.showSaveDialog(win, {
+        filters: [
+            {
                 name: 'Custom File Type',
                 extensions: ['md']
-            }]
-        },
-        function(fileName) {
-            if (fileName) {
-                writeFile(fileName, content);
             }
+        ]
+    }, function(fileName) {
+        if (fileName) {
+            writeFile(fileName, content);
         }
-    );
+    });
 }
 ipc.on('export_md', function() {
     saveNewFile();

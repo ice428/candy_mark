@@ -11,7 +11,10 @@ var sync_scroll_basic = function(length) {
         $(document.body).animate({
             scrollTop: total[length].offsetTop
         }, 100, "swing");
-
+    } else {
+        $(document.body).animate({
+            scrollTop: 0
+        }, 100, "swing");
     }
 };
 var sync_scroll_slide = function(length) {
@@ -21,7 +24,10 @@ var sync_scroll_slide = function(length) {
         $(document.body).animate({
             scrollTop: total[length].offsetTop
         }, 100, "swing");
-
+    } else {
+        $(document.body).animate({
+            scrollTop: 0
+        }, 100, "swing");
     }
 };
 

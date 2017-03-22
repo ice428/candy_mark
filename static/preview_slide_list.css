@@ -44,11 +44,21 @@ li {
     border-radius: 1vw;
 }
 
+.code_block code {
+    border: none;
+    background-color: transparent;
+}
+
 code {
     font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow: auto;
+    margin: 0 0.4vw;
+    padding: 0 0.8vw;
+    border: 0.2vw solid #ffeeaf;
+    background-color: #fff8c1;
+    border-radius: 0.6vw;
 }
 
 .katex-display {
@@ -106,7 +116,7 @@ td {
 
 svg {
     width: 100%;
-    /*height: initial;*/
+    height: auto;
 }
 
 blockquote {
