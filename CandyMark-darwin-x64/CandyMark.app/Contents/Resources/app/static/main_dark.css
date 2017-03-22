@@ -1,0 +1,58 @@
+body {
+    font-size: 0.87em;
+    /*font-family: Helvetica, arial, sans-serif;*/
+    /*font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;*/
+    /*font-family: "Hiragino Maru Gothic Pro", "Hiragino Kaku Gothic Pro", "HGMaruGothicMPRO";*/
+}
+
+.sidebar {
+    background-color: #2f3244;
+}
+
+.pane {
+    border-left: 1px solid #242633;
+}
+
+.list-group-item {
+    /*color: #6c798a;*/
+    color: #686196;
+    border-top: 1px solid #242633;
+}
+
+.CodeMirror {
+    width: 100%;
+    height: 100%;
+    font-size: 1em;
+    font-family: Monaco, 'Andale Mono', 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Courier, monospace;
+}
+
+.CodeMirror pre {
+    /*color: #72bec7;
+    color: #b6d4ff;*/
+    color: #67bed4;
+}
+
+.list-group-item.active, .list-group-item.selected {
+    /*background-color: #3b9c9e;*/
+    background: rgba(240, 57, 124, 1);
+    background: -moz-linear-gradient(left, rgba(240, 57, 124, 1) 0%, rgba(240, 152, 120, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(240, 57, 124, 1)), color-stop(100%, rgba(240, 152, 120, 1)));
+    background: -webkit-linear-gradient(left, rgba(240, 57, 124, 1) 0%, rgba(240, 152, 120, 1) 100%);
+    background: -o-linear-gradient(left, rgba(240, 57, 124, 1) 0%, rgba(240, 152, 120, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(240, 57, 124, 1) 0%, rgba(240, 152, 120, 1) 100%);
+    background: linear-gradient(to right, rgba(240, 57, 124, 1) 0%, rgba(240, 152, 120, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0397c', endColorstr='#f09878', GradientType=1);
+    color: white;
+    /*background: rgba(36, 180, 224, 1);
+    background: -moz-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(36, 180, 224, 1)), color-stop(100%, rgba(49, 224, 209, 1)));
+    background: -webkit-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: -o-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    background: linear-gradient(to right, rgba(36, 180, 224, 1) 0%, rgba(49, 224, 209, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#24b4e0', endColorstr='#31e0d1', GradientType=1);*/
+}
+
+webview {
+    height: 100%;
+}

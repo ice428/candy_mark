@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>CandyEditSlides</title>
+	<meta charset="UTF-8">
+	<!-- <link rel="stylesheet" href="static/spectre/spectre.min.css"> -->
+	<!-- <link rel="stylesheet" href="static/markdown.css"> -->
+	<link rel="stylesheet" href="static/mermaid/mermaid.forest.css">
+	<link rel="stylesheet" href="static/katex/katex.min.css">
+	<link rel="stylesheet" href="static/highlight/atom-one-light.css">
+	<link rel="stylesheet" href="static/preview_slide_single.css" id="preview_mode">
+</head>
+
+<body>
+	<div class="inner" id="preview">
+	</div>
+	<script src="static/mermaid/mermaid.min.js"></script>
+	<script src="static/jquery/jquery.min.js"></script>
+	<script type="text/javascript">
+		// mermaidの設定
+		var mermaid_config = {
+			startOnLoad: false,
+			flowchart: {
+				useMaxWidth: false,
+				htmlLabels: true
+			},
+			gantt: {
+				numberSectionStyles: 8
+			}
+		};
+
+		window.onload = function() {
+			mermaid.initialize(mermaid_config);
+		}
+	</script>
+</body>
+
+</html>
