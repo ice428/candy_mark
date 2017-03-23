@@ -6,19 +6,22 @@ CandyMark is a simple markdown editor.
 ## Features
 - Live preview
 - GitHub Flavored Markdown
-- support `mermaid.js`.
-- support `Katex.js`.
-- support Built-in Database.
-- support PDF export.
+- Presentation mode.
+- Incremental search.
+- mermaid supported.
+- KATEX supported.
+- Built-in Database.
+- Source code highlight.
+- PDF export.
 - Fast Synchronized Scroll.
 
 ## Usage
-To debug application, enter command below in a terminal.
+To debug application, enter command below in your terminal.
 ```sh
 npm install
 npm start
 ```
-To build application, enter command below in a terminal.
+To build application, enter command below in your terminal.
 ```sh
 npm run build
 ```
@@ -28,10 +31,12 @@ npm run build
 - `math` code block will render KATeX.
 
 ## Roadmap
-- presentation support
-- export HTML
-- file browser
-- screenshot
+- Export HTML
+- Screenshot
+- Cloud sync
+
+## Inspired by
+- Marp(https://github.com/yhatt/marp/)
 
 ## License
-MIT. Copyright (c) @icd428.
+MIT. Copyright (c) @ice428.
