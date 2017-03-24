@@ -33,13 +33,14 @@ renderer.code = function(code, lang) {
         return '<pre class="code_block"><code>' + hljs.highlightAuto(code, [lang]).value + '</code></pre>'
     }
 };
-// // 画像レンダラの上書き
-// renderer.image = function(href, title, text) {
-//     if (href.match(/\..*/)) {
-//         href = __dirname + href.substr(1)
-//     }
-//     return '<img src="' + href + '" alt="' + text + '"' + ' title="' + title + '"' + '>';
-// };
+// 画像レンダラの上書き
+renderer.image = function(href, title, text) {
+    if (href.match(/\..*/)) {
+        href = path.join(db_path + href.substr(1))
+    }
+    return '<img src="' + href + '" alt="' + text + '"' + ' title="' + title + '"' + '>';
+};
+// hrレンダラーの上書き
 renderer.hr = function() {
     return '</div><div class="slide">'
 }
@@ -152,6 +153,54 @@ var preview_slide_single = function() {
     webview.send('preview_mode', "preview_slide_single");
     sync_position();
 };
+// 設定画面のOpen
+var setting_open = function() {
+    db_path = localStorage.getItem("db_path");
+    $('#db_path').text(db_path);
+    $(".setting_modal_window").fadeIn("fast");
+};
+// DB保存Pathのリセット
+var reset_db_directry = function() {
+    $('#db_path').text("");
+};
+// DB保存Path取得
+const get_db_directry = function() {
+    var win = browserWindow.getFocusedWindow();
+    dialog.showOpenDialog(win, {
+        title: "Select database path.",
+        properties: ['openDirectory'],
+        filters: [
+            {
+                name: 'All Files',
+                extensions: ['*']
+            }
+        ]
+    }, function(dir_name) {
+        $('#db_path').text(dir_name);
+    })
+}
+// 設定画面のClose
+var setting_close = function() {
+    $(".setting_modal_window").fadeOut("fast");
+    db_path = $('#db_path').text();
+    localStorage.setItem("db_path", db_path);
+    // db_path = localStorage.getItem("db_path");
+    if (db_path === null | db_path === "") {
+        db_path = remote_app.getAppPath();
+    }
+    db = new Datastore({
+        filename: path.join(db_path, '/contents.db'),
+        timestampData: true
+    });
+    console.log(path.join(db_path, '/contents.db'))
+    db.loadDatabase(function(err) {
+        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
+            app.list = docs;
+            cur_id = docs[0]._id;
+            mdEditor.setValue(docs[0].content);
+        });
+    });
+};
 // 表示モードのトグル
 ipc.on('display_toggle', function() {
     $("#editor_pane").toggle();
@@ -159,13 +208,15 @@ ipc.on('display_toggle', function() {
 });
 
 // 新しいデータベースの作成
-const db = new Datastore({
-    filename: path.join(remote_app.getAppPath(), '/contents.db'),
-    // '/Users/azure/Google Drive/contents.db',
-    // autoload: true,
+let db_path = localStorage.getItem("db_path");
+if (db_path === null | db_path === "") {
+    db_path = remote_app.getAppPath();
+}
+let db = new Datastore({
+    filename: path.join(db_path, '/contents.db'),
     timestampData: true
 });
-console.log(path.join(remote_app.getAppPath(), '/contents.db'))
+console.log(path.join(db_path, '/contents.db'))
 db.loadDatabase();
 // create
 const md_create = function() {
@@ -224,7 +275,7 @@ const md_delete = function() {
             app.list = docs;
             mdEditor.setValue(docs[0].content);
         });
-        alert("deleted!")
+        // alert("deleted!")
     });
 };
 ipc.on('remove', function() {
@@ -297,7 +348,7 @@ const app = new Vue({
     }
 })
 webview.addEventListener('dom-ready', () => {
-    // webview.openDevTools()
+    webview.openDevTools()
     // NeDBからデータを引っ張ってきてvueのデータを更新
     db.find().sort({updatedAt: -1}).exec(function(err, docs) {
         app.list = docs;
@@ -313,6 +364,10 @@ $(function() {
     $('.md_create').on('click', md_create);
     $('.md_update').on('click', md_update);
     $('.md_delete').on('click', md_delete);
+    $('.setting_open').on('click', setting_open);
+    $('.setting_close').on('click', setting_close);
+    $('.get_db_directry').on('click', get_db_directry);
+    $('.reset_db_directry').on('click', reset_db_directry);
 });
 
 // PDF出力

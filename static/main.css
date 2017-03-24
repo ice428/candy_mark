@@ -57,3 +57,59 @@ body {
 webview {
     height: 100%;
 }
+
+.setting_modal_window {
+    z-index: 10;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.setting_modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.setting_modal_content {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    margin: auto;
+    padding: 10px;
+    background: #fff;
+    justify-content: center;
+    height: auto;
+    width: 300px;
+    border-radius: 4px;
+}
+
+.setting_modal_content * {
+    margin: 5px;
+}
+
+
+/*.list_tags {
+    height: 20%;
+    overflow: scroll;
+}*/
+
+.list_notes {
+    height: 80%;
+    overflow: scroll;
+}
+
+
+/*.date_tip {
+    background: #464646;
+    width: auto;
+    display: inline;
+    padding: 2px 8px;
+    border-radius: 2px;
+    color: white;
+}*/

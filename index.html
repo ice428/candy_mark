@@ -14,31 +14,61 @@
 </head>
 
 <body>
-	<div class="window">
 
+	<div class="setting_modal_window" hidden>
+		<!-- <div class="setting_modal_back"></div> -->
+		<div class="setting_modal">
+			<div class="setting_modal_content">
+				<h4>Settings</h4>
+				<label>Database Location</label>
+				<p id="db_path"></p>
+				<!-- <input type="text" class="form-control" id="db_path" placeholder="Enter Database Path"> -->
+				<div>
+					<button class="btn btn-default get_db_directry">Select</button>
+					<button class="btn btn-default reset_db_directry">Reset</button>
+					<button class="btn btn-positive setting_close">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="window">
 		<!--contents-->
 		<div class="window-content">
+
 			<div class="pane-group" id="editor">
-				<!-- <div class="pane pane-sm sidebar">
-					<h3>Settings</h3>
-					<label>Database Location</label>
-					<input type="email" class="form-control" placeholder="Enter Database Path">
-					<button class="btn btn-default">Set</button>
-				</div> -->
-				<div class="pane pane-sm sidebar">
-					<ul class="list-group" id="app">
-						<li class="list-group-header">
-							<input class="form-control" type="text" placeholder="Search for content" v-model="searchQuery">
-						</li>
-						<li class="list-group-item" v-for="l in filteredView" v-bind:id="l._id" v-on:click="md_read">
-							<div class="media-body">
-								<h5>{{l.title}}</h5>
-								<p>{{l.content}}</p>
-							</div>
-						</li>
-					</ul>
+				<div class="pane pane-sm sidebar" id="app">
+					<nav class="nav-group list_search">
+						<ul class="list-group">
+							<li class="list-group-header">
+								<input class="form-control" type="text" placeholder="Search for content" v-model="searchQuery">
+							</li>
+						</ul>
+					</nav>
+					<nav class="nav-group list_notes">
+						<h5 class="nav-group-title">NoteBooks</h5>
+						<!-- <span class="nav-group-item active">
+						<span class="icon icon-book"></span>自宅用
+						</span> -->
+						<span class="nav-group-item" v-for="l in filteredView" v-bind:id="l._id" v-on:click="md_read">
+						<span class="icon icon-book"></span>{{l.title}}
+						</span>
+						<span class="nav-group-item">
+						<span class="icon icon-plus"></span>New NoteBook
+						</span>
+						<h5 class="nav-group-title">Notes</h5>
+						<ul class="list-group">
+							<li class="list-group-item" v-for="l in filteredView" v-bind:id="l._id" v-on:click="md_read">
+								<div class="media-body">
+									<h5>{{l.title}}</h5>
+									<span class="date_tip">{{(l.updatedAt).getFullYear() + "/" + (parseInt((l.updatedAt).getMonth()) + 1) + "/"+ (l.updatedAt).getDate() + " " + (l.updatedAt).getHours() + ":" + (l.updatedAt).getMinutes()}}</span>
+									<!-- <p>{{l.content}}</p> -->
+								</div>
+							</li>
+						</ul>
+					</nav>
 				</div>
 				<div class="pane" id="editor_pane">
+
 					<textarea id="editor-div" v-model="input"></textarea>
 				</div>
 				<div class="pane" id="preview_pane">
@@ -48,12 +78,20 @@
 		</div>
 		<footer class="toolbar toolbar-footer">
 			<div class="toolbar-actions" id="action_area">
-				<div class="btn-group">
-					<!-- <button class="btn btn-default md_delete" id="setting"><span class="icon icon-tools"></span></button> -->
-					<button class="btn btn-default md_delete" id="style_slide"><span class="icon icon-trash"></span></button>
-					<button class="btn btn-default md_create" id="style_doc"><span class="icon icon-doc"></span></button>
-					<button class="btn btn-default md_update" id="style_slide"><span class="icon icon-folder"></span></button>
-				</div>
+				<button class="btn btn-default setting_open"><span class="icon icon-cog"></span></button>
+				<!-- <div class="btn-group"> -->
+				<button class="btn btn-default md_delete"><span class="icon icon-trash"></span></button>
+				<!-- <button class="btn btn-default md_create"><span class="icon icon-doc"></span></button> -->
+				<!-- <button class="btn btn-default md_update"><span class="icon icon-folder"></span></button> -->
+				<!-- </div> -->
+
+				<!-- <ul class="list-group">
+					<li class="list-group-header">
+						<select class="form-control">
+							<option>自宅用</option>
+							<option>会社用</option>
+						  </select></li>
+				</ul> -->
 				<div class="btn-group pull-right">
 					<button class="btn btn-default" id="preview_basic"><span class="icon icon-feather"></span></button>
 					<button class="btn btn-default" id="preview_slide_list"><span class="icon icon-doc-text"></span></button>
