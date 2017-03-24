@@ -19,78 +19,68 @@ let mainWindow = null
 app.on('window-all-closed', function() {
     if (process.platform != 'darwin')
         app.quit();
-});
+    }
+);
 
 // load window
 function createWindow() {
     // ウィンドウオブジェクトの生成
-    mainWindow = new BrowserWindow({
-        width: 1100,
-        height: 500,
-        title: "CandyMark",
-        show: false
-    });
+    mainWindow = new BrowserWindow({width: 1100, height: 500, title: "CandyMark", show: false});
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
     })
     // devtools
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
     mainWindow.loadURL("file://" + __dirname + "/index.html");
     mainWindow.on('closed', function() {
         mainWindow = null
     });
-    var template = [{
+    var template = [
+        {
             label: "Application",
-            submenu: [{
+            submenu: [
+                {
                     label: "About Application",
                     selector: "orderFrontStandardAboutPanel:"
-                },
-                {
+                }, {
                     type: "separator"
-                },
-                {
+                }, {
                     label: "Quit",
                     accelerator: "CmdOrCtrl+Q",
                     click: function() {
                         app.quit();
                     }
-                },
-                {
+                }, {
                     label: "New Content",
                     accelerator: "CmdOrCtrl+N",
                     click: function() {
                         mainWindow.webContents.send('new');
                     }
-                },
-                {
+                }, {
                     label: "Save Content",
                     accelerator: "CmdOrCtrl+S",
                     click: function() {
                         mainWindow.webContents.send('save');
                     }
-                },
-                {
+                }, {
                     label: 'Delete',
                     accelerator: 'CmdOrCtrl+Shift+D',
                     click: function() {
                         mainWindow.webContents.send('remove');
                     }
-                },
-                {
+                }, {
                     label: "Import Markdown",
                     // accelerator: "CmdOrCtrl+O",
                     click: function() {
                         mainWindow.webContents.send('import_md');
                     }
-                },
-                {
+                }, {
                     label: "Export Markdown",
                     // accelerator: "Command+Shift+S",
                     click: function() {
                         mainWindow.webContents.send('export_md');
                     }
-                },
-                {
+                }, {
                     label: "PrintPDF",
                     accelerator: "Command+P",
                     click: function() {
@@ -99,64 +89,54 @@ function createWindow() {
                     }
                 }
             ]
-        },
-        {
+        }, {
             label: "Edit",
-            submenu: [{
+            submenu: [
+                {
                     label: "Undo",
                     accelerator: "CmdOrCtrl+Z",
                     selector: "undo:"
-                },
-                {
+                }, {
                     label: "Redo",
                     accelerator: "Shift+CmdOrCtrl+Z",
                     selector: "redo:"
-                },
-                {
+                }, {
                     type: "separator"
-                },
-                {
+                }, {
                     label: "Cut",
                     accelerator: "CmdOrCtrl+X",
                     selector: "cut:"
-                },
-                {
+                }, {
                     label: "Copy",
                     accelerator: "CmdOrCtrl+C",
                     selector: "copy:"
-                },
-                {
+                }, {
                     label: "Paste",
                     accelerator: "CmdOrCtrl+V",
                     selector: "paste:"
-                },
-                {
+                }, {
                     label: "Select All",
                     accelerator: "CmdOrCtrl+A",
                     selector: "selectAll:"
-                },
-                {
+                }, {
                     label: 'Toggle Comment',
                     accelerator: 'CmdOrCtrl+/',
                     click: function() {
                         mainWindow.webContents.send('comment_out');
                     }
-                },
-                {
+                }, {
                     label: 'Toggle Display Mode',
                     accelerator: 'CmdOrCtrl+L',
                     click: function() {
                         mainWindow.webContents.send('display_toggle');
                     }
-                },
-                {
+                }, {
                     label: 'Toggle &Full Screen',
                     accelerator: 'CmdOrCtrl+F',
                     click: function() {
                         mainWindow.setFullScreen(!mainWindow.isFullScreen());
                     }
-                },
-                {
+                }, {
                     label: 'Toggle &Developer Tools',
                     // accelerator: 'CmdOrCtrl+Shift+D',
                     click: function() {

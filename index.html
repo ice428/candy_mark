@@ -49,8 +49,8 @@
 						<!-- <span class="nav-group-item active">
 						<span class="icon icon-book"></span>自宅用
 						</span> -->
-						<span class="nav-group-item" v-for="l in filteredView" v-bind:id="l._id" v-on:click="md_read">
-						<span class="icon icon-book"></span>{{l.title}}
+						<span class="nav-group-item" v-for="(item, index) in notebook" v-bind:id="'notebook_' + index" v-on:click="notebook_read">
+						<span class="icon icon-book"></span>{{item}}
 						</span>
 						<span class="nav-group-item">
 						<span class="icon icon-plus"></span>New NoteBook
@@ -119,5 +119,6 @@
 <script src="static/vue/vue.min.js"></script>
 <script type="text/javascript" src="static/editor.js"></script>
 <script type="text/javascript" src="static/interface.js"></script>
+<script type="text/javascript" src="static/db_interface.js"></script>
 
 </html>

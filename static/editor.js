@@ -1,3 +1,4 @@
+"use strict";
 const electron = require('electron');
 const ipc = electron.ipcRenderer;
 const remote = electron.remote;
@@ -10,7 +11,6 @@ const path = require("path");
 const marked = require('marked');
 const Datastore = require('nedb');
 const webview = document.getElementById('webview');
-let cur_id = "";
 hljs.initHighlightingOnLoad();
 
 // markedレンダラーの生成
@@ -139,67 +139,19 @@ mdEditor.on('cursorActivity', function(e) {
 });
 
 // basicに切替
-var preview_basic = function() {
+const preview_basic = function() {
     webview.send('preview_mode', "preview_basic");
     sync_position();
 };
 // listに切り替え
-var preview_slide_list = function() {
+const preview_slide_list = function() {
     webview.send('preview_mode', "preview_slide_list");
     sync_position();
 };
 // singleに切り替え
-var preview_slide_single = function() {
+const preview_slide_single = function() {
     webview.send('preview_mode', "preview_slide_single");
     sync_position();
-};
-// 設定画面のOpen
-var setting_open = function() {
-    db_path = localStorage.getItem("db_path");
-    $('#db_path').text(db_path);
-    $(".setting_modal_window").fadeIn("fast");
-};
-// DB保存Pathのリセット
-var reset_db_directry = function() {
-    $('#db_path').text("");
-};
-// DB保存Path取得
-const get_db_directry = function() {
-    var win = browserWindow.getFocusedWindow();
-    dialog.showOpenDialog(win, {
-        title: "Select database path.",
-        properties: ['openDirectory'],
-        filters: [
-            {
-                name: 'All Files',
-                extensions: ['*']
-            }
-        ]
-    }, function(dir_name) {
-        $('#db_path').text(dir_name);
-    })
-}
-// 設定画面のClose
-var setting_close = function() {
-    $(".setting_modal_window").fadeOut("fast");
-    db_path = $('#db_path').text();
-    localStorage.setItem("db_path", db_path);
-    // db_path = localStorage.getItem("db_path");
-    if (db_path === null | db_path === "") {
-        db_path = remote_app.getAppPath();
-    }
-    db = new Datastore({
-        filename: path.join(db_path, '/contents.db'),
-        timestampData: true
-    });
-    console.log(path.join(db_path, '/contents.db'))
-    db.loadDatabase(function(err) {
-        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
-            app.list = docs;
-            cur_id = docs[0]._id;
-            mdEditor.setValue(docs[0].content);
-        });
-    });
 };
 // 表示モードのトグル
 ipc.on('display_toggle', function() {
@@ -207,156 +159,7 @@ ipc.on('display_toggle', function() {
     mdEditor.setCursor(mdEditor.getCursor());
 });
 
-// 新しいデータベースの作成
-let db_path = localStorage.getItem("db_path");
-if (db_path === null | db_path === "") {
-    db_path = remote_app.getAppPath();
-}
-let db = new Datastore({
-    filename: path.join(db_path, '/contents.db'),
-    timestampData: true
-});
-console.log(path.join(db_path, '/contents.db'))
-db.loadDatabase();
-// create
-const md_create = function() {
-    let title = "new";
-    let content = "# new";
-    db.insert({
-        title: title,
-        content: content
-    }, function(err, newDoc) {
-        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
-            cur_id = docs[0]._id;
-            app.list = docs;
-            mdEditor.setValue(docs[0].content);
-        });
-    });
-};
-ipc.on('new', function() {
-    md_create();
-});
-// update
-const md_update = function() {
-    let id = cur_id;
-    let content = mdEditor.getValue();
-    let title = content.match(/#.*/)[0];
-    if (title === null) {
-        title = "";
-    } else {
-        title = title.replace(/#.* /, "");
-    }
-    db.update({
-        _id: id
-    }, {
-        $set: {
-            title: title,
-            content: content
-        }
-    }, {}, function(err, numReplaced) {
-        // console.log(err + "/" + numReplaced);
-        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
-            cur_id = docs[0]._id;
-            app.list = docs;
-        });
-    });
-};
-ipc.on('save', function() {
-    md_update();
-});
-// delete
-const md_delete = function() {
-    let id = cur_id;
-    db.remove({
-        _id: id
-    }, function() {
-        db.find().sort({updatedAt: -1}).exec(function(err, docs) {
-            cur_id = docs[0]._id;
-            app.list = docs;
-            mdEditor.setValue(docs[0].content);
-        });
-        // alert("deleted!")
-    });
-};
-ipc.on('remove', function() {
-    md_delete();
-});
-// import
-function md_example() {
-    let filename = "./static/example.md"
-    fs.readFile(filename, function(error, text) {
-        if (error != null) {
-            alert('error : ' + error);
-            return;
-        }
-        mdEditor.setValue(text.toString());
-        let content = text.toString();
-        let title = content.match(/#.*/)[0];
-        if (title === null) {
-            title = "";
-        } else {
-            title = title.replace(/#.* /, "");
-        }
-        db.insert({
-            title: title,
-            content: content
-        }, function(err, newDoc) {
-            db.find().sort({updatedAt: -1}).exec(function(err, docs) {
-                cur_id = docs[0]._id;
-                app.list = docs;
-                mdEditor.setValue(docs[0].content);
-            });
-        });
-    });
-}
-ipc.on('md_example', function() {
-    md_example();
-});
-// Vue.jsの初期化
-const app = new Vue({
-    el: '#app',
-    data: {
-        searchQuery: '',
-        list: []
-    },
-    methods: {
-        // read
-        md_read: function(event) {
-            $("li").removeClass("active");
-            let id = event.currentTarget.id;
-            $("#" + id).addClass("active");
-            db.find({
-                _id: id
-            }, function(err, docs) {
-                mdEditor.setValue(docs[0].content);
-                cur_id = docs[0]._id;
-            });
-        }
-    },
-    computed: {
-        filteredView() {
-            return this.list.filter(l => {
-                let query = this.searchQuery.replace(/ /g, "(.|\n)*");
-                // console.log(query);
-                return l.content.match(new RegExp(query, "i"));
-            })
-        }
-    },
-    updated: function() {
-        $("li").removeClass("active");
-        $("#" + cur_id).addClass("active");
-    }
-})
-webview.addEventListener('dom-ready', () => {
-    webview.openDevTools()
-    // NeDBからデータを引っ張ってきてvueのデータを更新
-    db.find().sort({updatedAt: -1}).exec(function(err, docs) {
-        app.list = docs;
-        cur_id = docs[0]._id;
-        mdEditor.setValue(docs[0].content);
-    });
-});
-
+// dom-ready後のイベントセット
 $(function() {
     $('#preview_basic').on('click', preview_basic);
     $('#preview_slide_list').on('click', preview_slide_list);
@@ -368,130 +171,4 @@ $(function() {
     $('.setting_close').on('click', setting_close);
     $('.get_db_directry').on('click', get_db_directry);
     $('.reset_db_directry').on('click', reset_db_directry);
-});
-
-// PDF出力
-// dpi測定関数
-const calc_dpi = function() {
-    let div = document.createElement('div');
-    div.setAttribute('style', 'height:1in;left:-100%;top:-100%;position:absolute;width:1in;');
-    document.body.appendChild(div);
-    let dpi = div.offsetHeight;
-    document.body.removeChild(div);
-    return dpi
-}
-// メインスレッドからのPDF印刷指示で発火
-ipc.on('print_pdf', function(event) {
-    webview.send('get_size');
-});
-// PDF保存ダイアログ
-function savePdfDialog(data) {
-    var win = browserWindow.getFocusedWindow();
-    dialog.showSaveDialog(win, {
-        // properties: ['openFile'],
-        filters: [
-            {
-                name: 'Documents',
-                extensions: ['pdf']
-            }
-        ]
-    }, function(fileName) {
-        if (fileName) {
-            fs.writeFile(fileName, data, function(error) {
-                if (error) {
-                    throw error
-                }
-                shell.openExternal('file://' + fileName)
-            })
-        }
-    })
-}
-// メインスレッドからサイズが帰ってきた時に発火
-ipc.on('return_size_content', function(event, width, height) {
-    let dpi = calc_dpi()
-    webview.printToPDF({
-        pageSize: {
-            // width: parseInt(width * 25.4 / dpi * 1000 * 1.3),
-            // height: parseInt(height * 25.4 / dpi * 1000 * 1.2)
-            width: parseInt(width * 25.4 / dpi * 1000),
-            height: parseInt(height * 25.4 / dpi * 1000)
-        }
-    }, function(error, data) {
-        if (error)
-            throw error
-        savePdfDialog(data)
-    })
-});
-
-// import
-function loadFile() {
-    let win = browserWindow.getFocusedWindow();
-    dialog.showOpenDialog(win, {
-        properties: ['openFile'],
-        filters: [
-            {
-                name: 'Markdown',
-                extensions: ['md', 'markdown']
-            }
-        ]
-    }, function(filenames) {
-        if (filenames) {
-            fs.readFile(filenames[0], function(error, text) {
-                if (error != null) {
-                    alert('error : ' + error);
-                    return;
-                }
-                mdEditor.setValue(text.toString());
-                let content = text.toString();
-                let title = content.match(/#.*/)[0];
-                if (title === null) {
-                    title = "";
-                } else {
-                    title = title.replace(/#.* /, "");
-                }
-                db.insert({
-                    title: title,
-                    content: content
-                }, function(err, newDoc) {
-                    db.find().sort({updatedAt: -1}).exec(function(err, docs) {
-                        cur_id = docs[0]._id;
-                        app.list = docs;
-                        mdEditor.setValue(docs[0].content);
-                    });
-                });
-            });
-        }
-    });
-}
-ipc.on('import_md', function() {
-    loadFile();
-});
-// ファイルの書き込み
-function writeFile(path, data) {
-    fs.writeFile(path, data, function(error) {
-        if (error != null) {
-            alert('error : ' + error);
-        }
-        alert('Exported!');
-    });
-}
-// 新しいファイルを保存するときはこちら
-function saveNewFile() {
-    let win = browserWindow.getFocusedWindow();
-    let content = mdEditor.getValue();
-    dialog.showSaveDialog(win, {
-        filters: [
-            {
-                name: 'Custom File Type',
-                extensions: ['md']
-            }
-        ]
-    }, function(fileName) {
-        if (fileName) {
-            writeFile(fileName, content);
-        }
-    });
-}
-ipc.on('export_md', function() {
-    saveNewFile();
 });
