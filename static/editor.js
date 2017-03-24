@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 const electron = require('electron');
 const ipc = electron.ipcRenderer;
 const remote = electron.remote;
@@ -36,7 +36,7 @@ renderer.code = function(code, lang) {
 // 画像レンダラの上書き
 renderer.image = function(href, title, text) {
     if (href.match(/\..*/)) {
-        href = path.join(db_path + href.substr(1))
+        href = path.join(get_db_path() + href.substr(1));
     }
     return '<img src="' + href + '" alt="' + text + '"' + ' title="' + title + '"' + '>';
 };
@@ -102,7 +102,7 @@ var get_slide_index = function() {
 // エディタのデータを転送
 mdEditor.on('change', function(e) {
     mdEditor.save();
-    var marked_text = '<div class="slide">' + marked($('#editor-div').val()) + '</div>';
+    let marked_text = '<div class="slide">' + marked($('#editor-div').val()) + '</div>';
     webview.send('update-markdown', marked_text);
 });
 mdEditor.on('inputRead', function(e) {

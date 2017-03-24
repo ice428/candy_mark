@@ -46,12 +46,8 @@
 					</nav>
 					<nav class="nav-group list_notes">
 						<h5 class="nav-group-title">NoteBooks</h5>
-						<!-- <span class="nav-group-item active">
-						<span class="icon icon-book"></span>自宅用
-						</span> -->
 						<span class="nav-group-item" v-for="(item, index) in notebook" v-bind:id="'notebook_' + index" v-on:click="notebook_read">
-						<span class="icon icon-book"></span>{{item}}
-						</span>
+						<span class="icon icon-book"></span>{{item}}</span>
 						<span class="nav-group-item">
 						<span class="icon icon-plus"></span>New NoteBook
 						</span>

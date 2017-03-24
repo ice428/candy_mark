@@ -15,13 +15,13 @@ const get_db_path = function() {
 const get_notebook_name = function() {
     let notebook_name = localStorage.getItem("cur_notebook");
     if (notebook_name === null | notebook_name === "") {
-        notebook_name = "default";
+        notebook_name = "default.db";
     }
     console.log("notebook_name:" + notebook_name);
     return notebook_name;
 };
 
-// ノートブックからノートの一覧を取得します
+// ノートの一覧を取得します
 const get_note_list = function() {
     notebook.find().sort({updatedAt: -1}).exec(function(err, docs) {
         if (docs.length === 0) {
@@ -47,7 +47,7 @@ const load_notebook = function() {
     let strage_path = get_db_path();
     // ノートブック名を読み出し
     let notebook_name = get_notebook_name();
-    let notebook_path = path.join(strage_path, notebook_name + '.db');
+    let notebook_path = path.join(strage_path, notebook_name);
     console.log(notebook_path);
     notebook = new Datastore({filename: notebook_path, timestampData: true});
     notebook.loadDatabase(function(err) {
@@ -85,17 +85,8 @@ const app = new Vue({
             $("span").removeClass("active");
             let id = event.currentTarget.id;
             $("#" + id).addClass("active");
-            cur_notebook = $("#" + id).text()
-            notebook = new Datastore({
-                filename: path.join(db_path, cur_notebook + '.db'),
-                timestampData: true
-            });
-            notebook.find({
-                _id: id
-            }, function(err, docs) {
-                mdEditor.setValue(docs[0].content);
-                localStorage.setItem("cur_note_id", docs[0]._id);
-            });
+            localStorage.setItem("cur_notebook", $("#" + id).text());
+            load_notebook();
         }
     },
     computed: {
@@ -112,7 +103,7 @@ const app = new Vue({
         $("li").removeClass("active");
         $("#" + localStorage.getItem("cur_note_id")).addClass("active");
         $("span").removeClass("active");
-        $("#notebook_" + cur_notebook_id).addClass("active");
+        $("#notebook_" + app.notebook.indexOf(get_notebook_name())).addClass("active");
     }
 })
 
@@ -146,7 +137,11 @@ const md_update = function() {
             content: content
         }
     }, {}, function(err, numReplaced) {
-        get_note_list();
+        notebook.find().sort({updatedAt: -1}).exec(function(err, docs) {
+            app.list = docs;
+            localStorage.setItem("cur_note_id", docs[0]._id);
+            // mdEditor.setValue(docs[0].content);
+        });
     });
 };
 
@@ -192,9 +187,7 @@ const get_db_directry = function() {
 const setting_close = function() {
     $(".setting_modal_window").fadeOut("fast");
     localStorage.setItem("db_path", $('#db_path').text());
-    // ここのNotebook読み出し処理は共通化出来そう
-    notebook = load_notebook();
-    get_note_list();
+    load_notebook();
 };
 
 // 各種イベント発火時の処理です
@@ -219,7 +212,7 @@ webview.addEventListener('dom-ready', () => {
             return (path.extname(element) === '.db');
         })
         // 現在のノートidを取得します
-        cur_notebook_id = app.notebook.indexOf(localStorage.getItem("cur_notebook"));
+        // localStorage.setItem("cur_notebook_id", app.notebook.indexOf(get_notebook_name()))
     })
     // Noteリスト作成
     load_notebook();
